@@ -1,4 +1,6 @@
 node default {
 
-    class {'apache':}
+    class {'apache':
+        default_mods => false,
+    }
 }
