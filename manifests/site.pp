@@ -5,16 +5,19 @@ node default {
     }
 
     package {["git", "subversion"]:}
+    file {["/var/git","/var/svn"]:
+        ensure => directory,
+    }
     
     vcsrepo { "/var/git/test":
         ensure => bare,
         provider => git,
-        require => Package["git"],
+        require => [Package["git"],File["/var/git"]],
     }
 
     vcsrepo { "/var/svn/test":
         ensure => present,
         provider => svn,
-        require => Package["subversion"],
+        require => [Package["subversion"],File["/var/svn"]],
     }
 }
