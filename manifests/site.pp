@@ -4,6 +4,8 @@ node default {
         default_mods => false,
     }
 
+    class {'java':}
+
     package {["git", "subversion"]:}
     file {["/var/git","/var/svn"]:
         ensure => directory,
