@@ -6,7 +6,7 @@ node default {
 
     class {'java':}
 
-    package {["git", "subversion"]:}
+    package {["git", "subversion", "unzip"]:}
     file {["/var/git","/var/svn"]:
         ensure => directory,
     }

@@ -2,13 +2,19 @@ define subgit ($git_url = $title, $svn_url) {
 
     $subgit_path = "/usr/local/subgit-2.0.0/bin"
 
-    exec {"/usr/bin/wget http://subgit.com/download/subgit-2.0.0.zip -O - | unzip":
+    exec {"/usr/bin/wget http://subgit.com/download/subgit-2.0.0.zip":
+        cwd => "/tmp",
+        creates => "/tmp/subgit-2.0.0.zip",
+    }
+
+    exec {"/usr/bin/unzip /tmp/subgit-2.0.0.zip":
         cwd => "/usr/local",
         creates => "$subgit_path",
+        require => Package["unzip"],
     }
 
     file {"$subgit_path":
-        require => Exec["/usr/bin/wget http://subgit.com/download/subgit-2.0.0.zip -O - | unzip"],
+        require => Exec["/usr/bin/unzip /tmp/subgit-2.0.0.zip"],
     }
 
     exec {"$subgit_path/subgit configure --svn-url $svn_url $git_url":
