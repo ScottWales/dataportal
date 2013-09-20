@@ -2,7 +2,7 @@ define subgit ($git_url = $title, $svn_url) {
 
     $subgit_path = "/usr/local/subgit-2.0.0/bin"
 
-    exec {"wget http://subgit.com/download/subgit-2.0.0.zip -O - | unzip":
+    exec {"/usr/bin/wget http://subgit.com/download/subgit-2.0.0.zip -O - | unzip":
         cwd => "/usr/local",
         creates => "$subgit_path",
     }
