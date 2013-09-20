@@ -20,4 +20,9 @@ node default {
         provider => svn,
         require => [Package["subversion"],File["/var/svn"]],
     }
+
+    subgit { "/var/git/sub":
+        svn_url => "file:///var/svn/test",
+        require => Vcsrepo["/var/svn/test"],
+    }
 }
