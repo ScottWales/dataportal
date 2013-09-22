@@ -4,6 +4,8 @@ node default {
         default_mods => false,
     }
 
+    class {'tomcat':}
+
     class {'java':}
 
     package {["unzip","man","vim"]:}
