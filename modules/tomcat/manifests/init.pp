@@ -8,6 +8,7 @@ class tomcat ($vhost = "*:80") {
 
     # Get apache to forward connections to tomcat
     apache::vhost {$vhost:
+        docroot => '/var/www/tomcat',
         proxy_dest => 'http://localhost:8080/',
     }
 }
