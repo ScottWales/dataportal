@@ -2,6 +2,7 @@ node default {
 
     class {'apache':
         default_mods => false,
+        default_vhost => false,
     }
 
     class {'tomcat':}

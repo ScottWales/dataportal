@@ -1,4 +1,6 @@
-class tomcat ($vhost = "*:80") {
+class tomcat ($vhost_name = '*', $port = '80') {
+    require java
+
     package {'tomcat6':}
 
     service {'tomcat6':
@@ -7,8 +9,11 @@ class tomcat ($vhost = "*:80") {
     }        
 
     # Get apache to forward connections to tomcat
-    apache::vhost {$vhost:
+    class {'apache::mod::proxy_http':}
+    apache::vhost {'tomcat':
+        vhost_name => $vhost_name,
+        port => $port, 
         docroot => '/var/www/tomcat',
-        proxy_dest => 'http://localhost:8080/',
+        proxy_pass => [{'path'=>'/repository','url'=>'http://localhost:8080/repository'}],
     }
 }
