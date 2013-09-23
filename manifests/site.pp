@@ -28,7 +28,6 @@ node default {
     class {'ramadda':}
 
     # Dependencies
-    class {'java':}
     package {'subversion':}
     package {'ant':}
 

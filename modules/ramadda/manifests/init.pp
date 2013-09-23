@@ -17,19 +17,23 @@ class ramadda {
 
     vcsrepo {'/tmp/ramadda':
         source => 'svn://svn.code.sf.net/p/ramadda/code',
-        provider => svn
+        ensure => present,
+        provider => svn,
     }
 
     # Build from subversion
-    exec {'cd /tmp/ramadda && ant':
+    exec {'ant':
+        command => '/usr/bin/ant',
+        cwd => '/tmp/ramadda',
         require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
         creates => '/tmp/ramadda/dist/repository.war',
     }
 
     # Install
     file {'/var/lib/tomcat6/webapps/repository.war':
-        require => Exec['cd /tmp/ramadda && ant'],
+        require => Exec['ant'],
         source => '/tmp/ramadda/dist/repository.war',
+        notify => Service['tomcat6'],
     }
 
     # Home directory
