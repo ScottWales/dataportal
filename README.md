@@ -8,3 +8,12 @@ minor changes to the directory structure.
 It installs Ramadda as a Tomcat webapp, then sets up Apache to serve the webapp
 on port 80.
 
+To install
+----------
+
+Requires git and puppet
+
+    git clone https://github.com/ScottWales/puppet
+    cd puppet
+    git submodule update --init
+    puppet apply manifests/site.pp
