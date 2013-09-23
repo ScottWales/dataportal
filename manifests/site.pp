@@ -24,8 +24,12 @@ node default {
     # Tomcat will be the default apache vhost
     class {'tomcat':}
 
+    # Ramadda will be at http://$fqdn/repository
+    class {'ramadda':}
+
     # Dependencies
     class {'java':}
     package {'subversion':}
+    package {'ant':}
 
 }
