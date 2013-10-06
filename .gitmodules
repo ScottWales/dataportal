@@ -1,3 +1,9 @@
 [submodule "private"]
 	path = private
 	url = git@repos.nci.org.au:u/saw562/private
+[submodule "modules/security"]
+	path = modules/security
+	url = git@repos.nci.org.au:u/saw562/puppet-security
+[submodule "modules/ssh"]
+	path = modules/ssh
+	url = https://github.com/saz/puppet-ssh
