@@ -28,12 +28,12 @@ hostname $hostname
 
 publicip4=$(curl "$openstackapi/meta-data/public-ipv4")
 if [ -n "$publicip4" ]; then
-    echo "$publicip4 $hostname"
+    echo "$publicip4 $hostname" > /etc/hosts
 fi
 
 localip4=$(curl "$openstackapi/meta-data/local-ipv4")
 if [ -n "$localip4" ]; then
-    echo "$localip4 $hostname"
+    echo "$localip4 $hostname" > /etc/hosts
 fi
 
 # RPM to install puppet
