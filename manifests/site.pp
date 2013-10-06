@@ -19,7 +19,9 @@
 node default {
 
   include ssh
+  include security
 
+  # Create a default user
   user {'ec2-user':
     ensure     => present,
     managehome => true,

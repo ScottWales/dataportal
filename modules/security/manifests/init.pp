@@ -1,40 +1,41 @@
-#!/bin/bash
-## \file    boot.sh
+## \file    modules/security/manifests/init.pp
 #  \author  Scott Wales <scott.wales@unimelb.edu.au>
-#  \brief   Boots an instance
-#  
+#  \brief
+#
 #  Copyright 2013 Scott Wales
-#  
+#
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-#  
+#
 #      http://www.apache.org/licenses/LICENSE-2.0
-#  
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-git push
+# Various security features
 
-vmname=$USER-base-vm
-nova delete $vmname
+class security {
+  file {'/etc/fstab':
+    owner => root,
+    group => root,
+    mode  => '0644',
+  }
 
-flavor="m1.small"
-image="centos-6-20130416"
-key="ubuntu-vm"
-secgroups="ssh,http"
+  file {['/etc/passwd','/etc/group']:
+    owner => root,
+    mode  => '0644',
+  }
+  file {'/etc/shadow':
+    owner => root,
+    mode  => '0400',
+  }
 
-nova boot \
-    --flavor $flavor \
-    --image $image \
-    --key_name $key \
-    --security_groups $secgroups \
-    --user_data userdata.sh \
-    --file "/root/.ssh/id_rsa=private/repos/id_rsa" \
-    --file "/root/.ssh/known_hosts=private/repos/repos.nci.org.au" \
-    --poll \
-    $vmname
-
+  file {'/root':
+    owner => root,
+    mode  => '0600',
+  }
+}
