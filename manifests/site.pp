@@ -19,5 +19,18 @@
 node default {
 
   include ssh
+
+  user {'ec2-user':
+    ensure     => present,
+    managehome => true,
+    home       => '/home/ec2-user',
+  } ->
+  file {'/home/ec2-user/.ssh':
+    ensure => directory,
+  } ->
+  file {'/home/ec2-user/.ssh/authorized_keys':
+    ensure  => present,
+    content => $::ec2_public_keys_0_openssh_key,
+  }
 }
 
