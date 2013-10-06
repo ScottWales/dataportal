@@ -7,3 +7,6 @@
 [submodule "modules/ssh"]
 	path = modules/ssh
 	url = https://github.com/saz/puppet-ssh
+[submodule "modules/stdlib"]
+	path = modules/stdlib
+	url = https://github.com/puppetlabs/puppetlabs-stdlib
