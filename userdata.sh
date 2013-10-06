@@ -44,6 +44,6 @@ yum install -y puppet git
 
 rm -rf /etc/puppet
 git clone https://github.com/ScottWales/base-vm /etc/puppet
-git submodule update --init
+cd /etc/puppet && git submodule update --init
 
 puppet apply /etc/puppet/manifests/site.pp
