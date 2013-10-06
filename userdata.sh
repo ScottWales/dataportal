@@ -47,3 +47,21 @@ git clone https://github.com/ScottWales/base-vm /etc/puppet
 cd /etc/puppet && git submodule update --init
 
 puppet apply /etc/puppet/manifests/site.pp
+echo "======================================================================"
+
+puppet apply --detailed-exitcodes /etc/puppet/manifests/site.pp
+
+case $? in
+    2)
+        echo
+        echo "BUILD NOT STATIC"
+        ;;
+    4)
+        echo
+        echo "BUILD ERROR"
+        ;;
+    6)
+        echo
+        echo "BUILD NOT STATIC AND ERRORS"
+        ;;
+esac
