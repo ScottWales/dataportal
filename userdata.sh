@@ -18,7 +18,6 @@
 #  limitations under the License.
 #  
 
-set -x
 chmod 0400 /root/.ssh/id_rsa
 
 openstackapi="http://169.254.169.254/2009-04-04"
