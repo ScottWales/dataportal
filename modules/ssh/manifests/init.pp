@@ -29,12 +29,12 @@ class ssh {
 
   augeas {'Disable root login':
     context => '/files/etc/ssh/sshd_config',
-    changes => 'PermitRootLogin no',
+    changes => 'set PermitRootLogin no',
     notify  => Service['sshd'],
   }
   augeas {'Disable protocol 1':
     context => '/files/etc/ssh/sshd_config',
-    changes => 'Protocol 2',
+    changes => 'set Protocol 2',
     notify  => Service['sshd'],
   }
 }
