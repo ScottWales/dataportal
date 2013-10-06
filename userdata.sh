@@ -47,10 +47,10 @@ rm -rf /etc/puppet
 git clone https://github.com/ScottWales/base-vm /etc/puppet
 cd /etc/puppet && git submodule update --init
 
-puppet apply /etc/puppet/manifests/site.pp
+puppet apply --color false /etc/puppet/manifests/site.pp
 echo "======================================================================"
 
-puppet apply --detailed-exitcodes /etc/puppet/manifests/site.pp
+puppet apply --color false --detailed-exitcodes /etc/puppet/manifests/site.pp
 
 case $? in
     2)
