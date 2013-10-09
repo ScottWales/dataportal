@@ -20,6 +20,7 @@ node default {
 
   include ssh
   include security
+  include apache
 
   # Create a default user
   user {'ec2-user':
