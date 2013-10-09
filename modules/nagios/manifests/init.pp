@@ -22,8 +22,8 @@ class nagios (
   $vhost_name = '*',
   $port     = '80'
 ) {
-  package {'nagios3':} ->
-  service {'nagios3':
+  package {'nagios':} ->
+  service {'nagios':
     ensure => running,
   }
 
