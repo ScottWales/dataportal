@@ -1,4 +1,4 @@
-## \file    manifests/site.pp
+## \file    modules/nagios/manifests/init.pp
 #  \author  Scott Wales <scott.wales@unimelb.edu.au>
 #  \brief
 #
@@ -15,31 +15,22 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+#
 
-node default {
-
-  include ssh
-  include security
-  class {'apache':
-    default_mods  => false,
-    default_vhost => false,
+# Setup a Nagios server
+class nagios (
+  $vhost_name = '*',
+  $port     = '80'
+) {
+  package {'nagios3':} ->
+  service {'nagios3':
+    ensure => running,
   }
 
-  class {'nagios':
-  }
-
-  # Create a default user
-  user {'ec2-user':
-    ensure     => present,
-    managehome => true,
-    home       => '/home/ec2-user',
-  } ->
-  file {'/home/ec2-user/.ssh':
-    ensure => directory,
-  } ->
-  file {'/home/ec2-user/.ssh/authorized_keys':
-    ensure  => present,
-    content => $::ec2_public_keys_0_openssh_key,
+  apache::vhost {'nagios':
+    vhost_name  => $vhost_name,
+    port        => $port,
+    docroot     => '/usr/share/nagios/html',
+    scriptalias => '/usr/lib64/nagios/cgi-bin/',
   }
 }
-
