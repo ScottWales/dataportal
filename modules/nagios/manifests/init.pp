@@ -30,7 +30,7 @@ class nagios (
   apache::vhost {'nagios':
     vhost_name  => $vhost_name,
     port        => $port,
-    docroot     => '/usr/share/nagios/html',
-    scriptalias => '/usr/lib64/nagios/cgi-bin/',
+    docroot     => '/usr/share/nagios',
+    scriptalias => '/usr/lib/nagios/cgi',
   }
 }
