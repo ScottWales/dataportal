@@ -22,6 +22,8 @@ class nagios (
   $vhost_name = '*',
   $port     = '80'
 ) {
+  require epel
+
   package {'nagios':} ->
   service {'nagios':
     ensure => running,
