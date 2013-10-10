@@ -24,7 +24,11 @@ class nagios (
 ) {
   require epel
 
-  package {'nagios':} ->
+  package {'nagios':
+    # Apache will delete the config files, install nagios first so the build is
+    # stable
+    before => Package['apache'],
+  } ->
   service {'nagios':
     ensure => running,
   }
