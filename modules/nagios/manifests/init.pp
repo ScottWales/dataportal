@@ -27,7 +27,7 @@ class nagios (
   package {'nagios':
     # Apache will delete the config files, install nagios first so the build is
     # stable
-    before => Package['apache'],
+    before => Class['apache'],
   } ->
   service {'nagios':
     ensure => running,
