@@ -28,6 +28,7 @@ class nagios (
   include apache::mod::php
   include apache::mod::cgi
   include apache::mod::auth_basic
+  apache::mod{'authn_file':}
 
   package {'nagios':
     # Apache will delete the config files, install nagios first so the build is
