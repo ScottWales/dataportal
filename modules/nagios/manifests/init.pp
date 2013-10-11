@@ -49,7 +49,7 @@ class nagios (
     docroot          => '/var/www',
     aliases          => [
       {alias         => '/',
-      path           => '/usr/share/nagios/html'}
+      path           => '/usr/share/nagios/html/'}
     ],
     scriptalias      => '/usr/lib64/nagios/cgi-bin',
   }
