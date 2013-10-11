@@ -40,7 +40,7 @@ fi
 rpm -i http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-7.noarch.rpm
 
 # Install puppet and git
-yum install -y puppet git
+yum install -assumeyes --quiet puppet git
 
 rm -rf /etc/puppet
 git clone https://github.com/ScottWales/base-vm /etc/puppet
