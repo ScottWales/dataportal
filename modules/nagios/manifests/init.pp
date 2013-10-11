@@ -23,6 +23,10 @@ class nagios (
   $port     = '80'
 ) {
   require epel
+  include apache::mod::mime
+  include apache::mod::dir
+  include apache::mod::php
+  include apache::mod::cgi
 
   package {'nagios':
     # Apache will delete the config files, install nagios first so the build is
@@ -33,10 +37,33 @@ class nagios (
     ensure => running,
   }
 
+  file {'/var/www/.htauth_nagios':
+    owner  => 'apache',
+    source => 'puppet:///modules/nagios/htaccess',
+  }
+
   apache::vhost {'nagios':
-    vhost_name  => $vhost_name,
-    port        => $port,
-    docroot     => '/usr/share/nagios',
-    scriptalias => '/usr/lib/nagios/cgi',
+    vhost_name       => $vhost_name,
+    port             => $port,
+    docroot          => '/var/www',
+    aliases          => [
+      {alias         => '/nagios',
+      path           => '/usr/share/nagios/html'}
+    ],
+    scriptalias      => '/usr/lib64/nagios/cgi-bin',
+    redirect_source  => '/nagios/cgi-bin',
+    redirect_dest    => '/cgi-bin',
+    directories      => [
+
+      {path          => '/usr/share/nagios/html',
+      auth_type      => 'basic',
+      auth_user_file => '/var/www/.htauth_nagios',
+      auth_require   => 'valid-user',},
+
+      {path          => '/usr/lib64/nagios/cgi-bin',
+      auth_type      => 'basic',
+      auth_user_file => '/var/www/.htauth_nagios',
+      auth_require   => 'valid-user',},
+    ],
   }
 }
