@@ -29,6 +29,7 @@ class nagios (
   include apache::mod::cgi
   include apache::mod::auth_basic
   apache::mod{'authn_file':}
+  apache::mod{'authz_user':}
 
   package {'nagios':
     # Apache will delete the config files, install nagios first so the build is
@@ -56,7 +57,12 @@ class nagios (
       auth_require   => 'valid-user',
       auth_type      => 'Basic',
       auth_name      => 'Nagios',
-      auth_user_file => '/etc/nagios/htpasswd'}
+      auth_user_file => '/etc/nagios/htpasswd'},
+      {path          => '/usr/lib64/nagios/cgi-bin',
+      auth_require   => 'valid-user',
+      auth_type      => 'Basic',
+      auth_name      => 'Nagios',
+      auth_user_file => '/etc/nagios/htpasswd'},
     ],
   }
 }
