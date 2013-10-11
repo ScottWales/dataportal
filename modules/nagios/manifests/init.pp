@@ -49,7 +49,7 @@ class nagios (
   $module_path = get_module_path('nagios')
 
   augeas {'base url':
-    context   => '/files/etc/nagios/cgi.config',
+    context   => '/files/etc/nagios/cgi.cfg',
     changes   => 'set url_html_path /',
     require   => Package['nagios'],
     load_path => "${module_path}/lib/augeas/lenses",
