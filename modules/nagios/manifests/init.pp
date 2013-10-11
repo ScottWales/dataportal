@@ -44,11 +44,17 @@ class nagios (
   }
 
   apache::vhost {'nagios':
-    vhost_name      => $vhost_name,
-    port            => $port,
-    docroot         => '/usr/share/nagios/html',
-    scriptalias     => '/usr/lib64/nagios/cgi-bin',
-    redirect_source => '/nagios/cgi-bin',
-    redirect_dest   => '/cgi-bin',
+    vhost_name       => $vhost_name,
+    port             => $port,
+    docroot          => '/usr/share/nagios/html',
+    scriptalias      => '/usr/lib64/nagios/cgi-bin',
+    redirect_source  => '/nagios/cgi-bin',
+    redirect_dest    => '/cgi-bin',
+    directories      => [
+      {path          => '/usr/share/nagios/html',
+      auth_require   => 'valid-user',
+      auth_type      => 'Basic',
+      auth_user_file => '/etc/nagios/htpasswd'}
+    ],
   }
 }
