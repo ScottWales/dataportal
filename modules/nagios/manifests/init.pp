@@ -65,4 +65,6 @@ class nagios (
       auth_user_file => '/etc/nagios/htpasswd'},
     ],
   }
+
+  nagios::plugin{['ssh','ping','http',]:}
 }
