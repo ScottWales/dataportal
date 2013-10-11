@@ -45,10 +45,14 @@ class nagios (
     source => 'puppet:///modules/nagios/htpasswd',
   }
 
+  # Puppet says it loads lenses in lib/augeas/lenses, but it doesn't
+  $module_path = get_module_path('nagios')
+
   augeas {'base url':
-    context => '/files/etc/nagios/cgi.config',
-    changes => 'set url_html_path /',
-    require => Package['nagios'],
+    context   => '/files/etc/nagios/cgi.config',
+    changes   => 'set url_html_path /',
+    require   => Package['nagios'],
+    load_path => "${module_path}/lib/augeas/lenses",
   }
 
   apache::vhost {'nagios':
