@@ -27,6 +27,7 @@ class nagios (
   include apache::mod::dir
   include apache::mod::php
   include apache::mod::cgi
+  include apache::mod::auth_basic
 
   package {'nagios':
     # Apache will delete the config files, install nagios first so the build is
@@ -47,23 +48,9 @@ class nagios (
     port             => $port,
     docroot          => '/var/www',
     aliases          => [
-      {alias         => '/nagios',
+      {alias         => '/',
       path           => '/usr/share/nagios/html'}
     ],
     scriptalias      => '/usr/lib64/nagios/cgi-bin',
-    redirect_source  => '/nagios/cgi-bin',
-    redirect_dest    => '/cgi-bin',
-    directories      => [
-
-      {path          => '/usr/share/nagios/html',
-      auth_type      => 'basic',
-      auth_user_file => '/var/www/.htauth_nagios',
-      auth_require   => 'valid-user',},
-
-      {path          => '/usr/lib64/nagios/cgi-bin',
-      auth_type      => 'basic',
-      auth_user_file => '/var/www/.htauth_nagios',
-      auth_require   => 'valid-user',},
-    ],
   }
 }
