@@ -45,6 +45,12 @@ class nagios (
     source => 'puppet:///modules/nagios/htpasswd',
   }
 
+  augeas {'base url':
+    context => '/files/etc/nagios/cgi.config',
+    changes => 'set url_html_path /',
+    require => Package['nagios'],
+  }
+
   apache::vhost {'nagios':
     vhost_name       => $vhost_name,
     port             => $port,
