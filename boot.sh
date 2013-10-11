@@ -24,7 +24,7 @@ nova delete $vmname
 
 flavor="m1.small"
 image="centos-6-20130416"
-key="ubuntu-vm"
+key=$(hostname)
 secgroups="ssh,http"
 
 nova boot \
