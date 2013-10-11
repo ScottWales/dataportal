@@ -22,16 +22,23 @@ git push
 vmname=$USER-base-vm
 nova delete $vmname
 
+if [ "$OS_AUTH_URL" == "https://keystone.rc.nectar.org.au:5000/v2.0/" ]; then
+    # NeCTAR cloud
+    image="NeCTAR CentOS 6.4 x86_64"
+else
+    # NCI cloud
+    image="centos-6-20130416"
+fi
+
 flavor="m1.small"
-image="centos-6-20130416"
 key=$(hostname)
 secgroups="ssh,http"
 
 nova boot \
-    --flavor $flavor \
-    --image $image \
-    --key_name $key \
-    --security_groups $secgroups \
+    --flavor "$flavor" \
+    --image "$image" \
+    --key_name "$key" \
+    --security_groups "$secgroups" \
     --user_data userdata.sh \
     --file "/root/.ssh/id_rsa=private/repos/id_rsa" \
     --file "/root/.ssh/known_hosts=private/repos/repos.nci.org.au" \

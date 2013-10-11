@@ -1,4 +1,4 @@
-## \file    manifests/site.pp
+## \file    modules/nagios/manifests/nrpe.pp
 #  \author  Scott Wales <scott.wales@unimelb.edu.au>
 #  \brief
 #
@@ -16,30 +16,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-node default {
-
-  include ssh
-  include security
-  class {'apache':
-    default_mods  => false,
-    default_vhost => false,
-  }
-
-  class {'nagios':
-  }
-
-  # Create a default user
-  user {'ec2-user':
-    ensure     => present,
-    managehome => true,
-    home       => '/home/ec2-user',
+# Install a Nagios slave
+class nagios::nrpe($hostip = '127.0.0.1') {
+  package {'nrpe':
+    ensure => present,
   } ->
-  file {'/home/ec2-user/.ssh':
-    ensure => directory,
-  } ->
-  file {'/home/ec2-user/.ssh/authorized_keys':
-    ensure  => present,
-    content => $::ec2_public_keys_0_openssh_key,
+  service {'nrpe':
+    ensure => running,
   }
+
 }
-
