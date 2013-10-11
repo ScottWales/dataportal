@@ -55,6 +55,7 @@ class nagios (
       {path          => '/usr/share/nagios/html',
       auth_require   => 'valid-user',
       auth_type      => 'Basic',
+      auth_name      => 'Nagios',
       auth_user_file => '/etc/nagios/htpasswd'}
     ],
   }
