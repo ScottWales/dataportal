@@ -38,15 +38,17 @@ class nagios (
     ensure => running,
   }
 
-  file {'/etc/nagios/htaccess':
+  file {'/etc/nagios/htpasswd':
     owner  => 'apache',
-    source => 'puppet:///modules/nagios/htaccess',
+    source => 'puppet:///modules/nagios/htpasswd',
   }
 
   apache::vhost {'nagios':
-    vhost_name       => $vhost_name,
-    port             => $port,
-    docroot          => '/usr/share/nagios/html',
-    scriptalias      => '/usr/lib64/nagios/cgi-bin',
+    vhost_name      => $vhost_name,
+    port            => $port,
+    docroot         => '/usr/share/nagios/html',
+    scriptalias     => '/usr/lib64/nagios/cgi-bin',
+    redirect_source => '/nagios/cgi-bin',
+    redirect_dest   => '/cgi-bin',
   }
 }
