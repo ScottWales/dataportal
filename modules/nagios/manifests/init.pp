@@ -66,5 +66,5 @@ class nagios (
     ],
   }
 
-  nagios::plugin{['ssh','ping','http',]:}
+  nagios::plugin{['ssh','ping','http','disk','users','swap','load','procs']:}
 }
