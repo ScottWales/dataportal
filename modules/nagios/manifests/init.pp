@@ -38,7 +38,7 @@ class nagios (
     ensure => running,
   }
 
-  file {'/var/www/.htauth_nagios':
+  file {'/etc/nagios/htaccess':
     owner  => 'apache',
     source => 'puppet:///modules/nagios/htaccess',
   }
@@ -46,11 +46,7 @@ class nagios (
   apache::vhost {'nagios':
     vhost_name       => $vhost_name,
     port             => $port,
-    docroot          => '/var/www',
-    aliases          => [
-      {alias         => '/',
-      path           => '/usr/share/nagios/html/'}
-    ],
+    docroot          => '/usr/share/nagios/html',
     scriptalias      => '/usr/lib64/nagios/cgi-bin',
   }
 }
