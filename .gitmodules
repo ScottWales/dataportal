@@ -13,3 +13,6 @@
 [submodule "modules/epel"]
 	path = modules/epel
 	url = https://github.com/stahnma/puppet-module-epel
+[submodule "modules/sudo"]
+	path = modules/sudo
+	url = https://github.com/saz/puppet-sudo

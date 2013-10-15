@@ -25,14 +25,13 @@ nova delete $vmname
 if [ "$OS_AUTH_URL" == "https://keystone.rc.nectar.org.au:5000/v2.0/" ]; then
     # NeCTAR cloud
     image="NeCTAR CentOS 6.4 x86_64"
-    key="walesnix"
 else
     # NCI cloud
-    image="centos-6-20130416"
-    key="ubuntu-vm"
+    image="centos-6.4-20130920"
 fi
 
 flavor="m1.small"
+key=walesnix
 secgroups="ssh,http"
 
 nova boot \

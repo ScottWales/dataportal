@@ -27,6 +27,9 @@ class nagios (
   include apache::mod::dir
   include apache::mod::php
   include apache::mod::cgi
+  include apache::mod::auth_basic
+  apache::mod{'authn_file':}
+  apache::mod{'authz_user':}
 
   package {'nagios':
     # Apache will delete the config files, install nagios first so the build is
@@ -37,33 +40,41 @@ class nagios (
     ensure => running,
   }
 
-  file {'/var/www/.htauth_nagios':
+  file {'/etc/nagios/htpasswd':
     owner  => 'apache',
-    source => 'puppet:///modules/nagios/htaccess',
+    source => 'puppet:///modules/nagios/htpasswd',
+  }
+
+  # Puppet says it loads lenses in lib/augeas/lenses, but it doesn't
+  $module_path = get_module_path('nagios')
+
+  augeas {'base url':
+    context   => '/files/etc/nagios/cgi.cfg',
+    changes   => 'set url_html_path /',
+    require   => Package['nagios'],
+    load_path => "${module_path}/lib/augeas/lenses",
   }
 
   apache::vhost {'nagios':
     vhost_name       => $vhost_name,
     port             => $port,
-    docroot          => '/var/www',
-    aliases          => [
-      {alias         => '/nagios',
-      path           => '/usr/share/nagios/html'}
-    ],
+    docroot          => '/usr/share/nagios/html',
     scriptalias      => '/usr/lib64/nagios/cgi-bin',
     redirect_source  => '/nagios/cgi-bin',
     redirect_dest    => '/cgi-bin',
     directories      => [
-
       {path          => '/usr/share/nagios/html',
-      auth_type      => 'basic',
-      auth_user_file => '/var/www/.htauth_nagios',
-      auth_require   => 'valid-user',},
-
+      auth_require   => 'valid-user',
+      auth_type      => 'Basic',
+      auth_name      => 'Nagios',
+      auth_user_file => '/etc/nagios/htpasswd'},
       {path          => '/usr/lib64/nagios/cgi-bin',
-      auth_type      => 'basic',
-      auth_user_file => '/var/www/.htauth_nagios',
-      auth_require   => 'valid-user',},
+      auth_require   => 'valid-user',
+      auth_type      => 'Basic',
+      auth_name      => 'Nagios',
+      auth_user_file => '/etc/nagios/htpasswd'},
     ],
   }
+
+  nagios::plugin{['ssh','ping','http','disk','users','swap','load','procs']:}
 }

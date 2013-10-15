@@ -1,4 +1,4 @@
-## \file    manifests/site.pp
+## \file    modules/nagios/manifests/plugin.pp
 #  \author  Scott Wales <scott.wales@unimelb.edu.au>
 #  \brief
 #
@@ -16,37 +16,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-node default {
+define nagios::plugin {
+  include nagios
 
-  include ssh
-  include security
-  include sudo
-
-  class {'apache':
-    default_mods  => false,
-    default_vhost => false,
-  }
-
-  class {'nagios':
-  }
-
-  # Create a default user
-  user {'ec2-user':
-    ensure     => present,
-    managehome => true,
-    home       => '/home/ec2-user',
-  } ->
-  file {'/home/ec2-user/.ssh':
-    ensure => directory,
-  } ->
-  file {'/home/ec2-user/.ssh/authorized_keys':
-    ensure  => present,
-    content => $::ec2_public_keys_0_openssh_key,
-  }
-  
-  sudo::conf {'ec2-user':
-    content => "ec2-user ALL=(ALL) NOPASSWD: ALL\n",
-    require => User['ec2-user'],
+  package{"nagios-plugins-${title}":
+    ensure => present,
   }
 }
-
