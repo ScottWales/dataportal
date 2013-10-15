@@ -27,11 +27,11 @@ if [ "$OS_AUTH_URL" == "https://keystone.rc.nectar.org.au:5000/v2.0/" ]; then
     image="NeCTAR CentOS 6.4 x86_64"
 else
     # NCI cloud
-    image="centos-6-20130416"
+    image="centos-6.4-20130920"
 fi
 
 flavor="m1.small"
-key=$(hostname)
+key=walesnix
 secgroups="ssh,http"
 
 nova boot \
