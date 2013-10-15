@@ -20,6 +20,8 @@ node default {
 
   include ssh
   include security
+  include sudo
+
   class {'apache':
     default_mods  => false,
     default_vhost => false,
