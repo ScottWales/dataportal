@@ -21,13 +21,11 @@ node default {
   include ssh
   include security
   include sudo
+  include ramadda
 
   class {'apache':
     default_mods  => false,
     default_vhost => false,
-  }
-
-  class {'nagios':
   }
 
   # Create a default user
