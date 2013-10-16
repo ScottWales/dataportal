@@ -40,7 +40,7 @@ class ramadda (
 
   $download = 'http://downloads.sourceforge.net/project/ramadda/ramadda1.5b/repository.war?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Framadda%2Ffiles%2Framadda1.5b%2F&ts=1381896458&use_mirror=aarnet'
 
-  exec {"/usr/bin/wget ${download} -O ${tomcat_home}/instances/repository.war":
+  exec {"/usr/bin/wget -O ${tomcat_home}/webapps/repository.war ${download}":
     creates => "${tomcat_home}/instances/repository.war",
   }
 }
