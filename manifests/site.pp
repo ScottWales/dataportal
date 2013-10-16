@@ -21,7 +21,7 @@ node default {
   include ssh
   include security
   include sudo
-  include ramadda
+  include tomcat
 
   class {'apache':
     default_mods  => false,
