@@ -1,4 +1,4 @@
-## \file    modules/tomcat/manifests/init.pp
+## \file    modules/tomcat/manifests/webapp.pp
 #  \author  Scott Wales <scott.wales@unimelb.edu.au>
 #  \brief
 #
@@ -16,16 +16,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class tomcat {
-  package {'tomcat6':
-    ensure => present,
-  } ->
-  service {'tomcat6':
-    ensure => running,
-  }
+define tomcat::webapp(
+  $vhost_name = '*',
+  $port = 80,
+) {
 
-  $catalina_base = '/usr/share/tomcat6'
-  $catalina_home = '/usr/share/tomcat6'
-  $jasper_home = '/usr/share/tomcat6'
+  include apache::mod::proxy_ajp
+  apache::vhost {"tomcat-${title}":
+    docroot    => '/var/www/html',
+    proxy_dest => 'ajp://localhost:8009/',
+  }
 
 }
