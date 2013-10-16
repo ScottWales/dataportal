@@ -39,9 +39,10 @@ nova boot \
     --image "$image" \
     --key_name "$key" \
     --security_groups "$secgroups" \
-    --user_data userdata.sh \
+    --user_data cloud-config \
     --file "/root/.ssh/id_rsa=private/repos/id_rsa" \
     --file "/root/.ssh/known_hosts=private/repos/repos.nci.org.au" \
+    --file "/usr/sbin/puppet-init=puppet-init" \
     --poll \
     $vmname
 
