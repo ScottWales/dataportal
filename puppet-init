@@ -24,7 +24,7 @@ chmod 0400 /root/.ssh/id_rsa
 rpm -i http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-7.noarch.rpm
 
 # Install puppet and git
-yum install --assumeyes --quiet puppet git
+yum install --assumeyes --quiet puppet git redhat-lsb-core
 
 rm -rf /etc/puppet
 git clone --quiet https://github.com/ScottWales/base-vm /etc/puppet
