@@ -19,23 +19,18 @@
 # Various security features
 
 class security {
-  file {'/etc/fstab':
+  File {
     owner => root,
     group => root,
-    mode  => '0644',
   }
 
-  file {['/etc/passwd','/etc/group']:
-    owner => root,
+  file {['/etc/passwd','/etc/group','/etc/fstab']:
     mode  => '0644',
   }
   file {'/etc/shadow':
-    owner => root,
     mode  => '0400',
   }
-
   file {'/root':
-    owner => root,
-    mode  => '0600',
+    mode  => '0500',
   }
 }
