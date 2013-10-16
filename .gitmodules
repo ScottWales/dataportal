@@ -16,3 +16,6 @@
 [submodule "modules/sudo"]
 	path = modules/sudo
 	url = https://github.com/saz/puppet-sudo
+[submodule "modules/tomcat"]
+	path = modules/tomcat
+	url = https://github.com/camptocamp/puppet-tomcat
