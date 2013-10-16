@@ -34,6 +34,7 @@ class ramadda (
   include apache::mod::proxy_ajp
   apache::vhost {'ramadda':
     ensure     => present,
+    docroot    => '/var/www/html',
     proxy_dest => "ajp://localhost:${tomcat_port}",
   }
 
