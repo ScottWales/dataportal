@@ -22,12 +22,12 @@ class ramadda (
   $tomcat_home = '/var/ramadda',
 ) {
 
-  $tomcat_port = '8080'
+  $tomcat_port = '8009'
 
   include tomcat
   tomcat::instance {'ramadda':
     ensure           => present,
-    http_port        => $tomcat_port,
+    ajp_port         => $tomcat_port,
     instance_basedir => $tomcat_home,
   }
 
