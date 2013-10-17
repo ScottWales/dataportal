@@ -21,7 +21,7 @@ node default {
   include ssh
   include security
   include sudo
-  include tomcat
+  include nagios
 
   class {'apache':
     default_mods  => false,
