@@ -24,7 +24,6 @@ node default {
   include nagios
 
   class {'apache':
-    default_mods  => false,
     default_vhost => false,
   }
 
@@ -41,7 +40,7 @@ node default {
     ensure  => present,
     content => $::ec2_public_keys_0_openssh_key,
   }
-  
+
   sudo::conf {'ec2-user':
     content => "ec2-user ALL=(ALL) NOPASSWD: ALL\n",
     require => User['ec2-user'],
