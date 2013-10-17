@@ -25,6 +25,7 @@ node default {
 
   class {'apache':
     default_vhost => false,
+    mpm_module    => prefork,
   }
 
   # Create a default user
