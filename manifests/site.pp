@@ -26,7 +26,7 @@ node default {
     default_vhost => false,
     default_mods  => false,
     mpm_module    => prefork,
-  } ->
+  }
   class {'nagios':}
 
   # Create a default user
