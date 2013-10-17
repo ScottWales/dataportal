@@ -23,7 +23,6 @@ class nagios (
   $port     = '80'
 ) {
   require epel
-  require apache
 
   include apache::mod::mime
   include apache::mod::dir

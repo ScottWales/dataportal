@@ -21,13 +21,13 @@ node default {
   include ssh
   include security
   include sudo
-  include nagios
 
   class {'apache':
     default_vhost => false,
     default_mods  => false,
     mpm_module    => prefork,
-  }
+  } ->
+  class {'nagios':}
 
   # Create a default user
   user {'ec2-user':
