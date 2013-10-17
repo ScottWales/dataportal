@@ -7,8 +7,6 @@ disable_root_opts: no-port-forwarding,no-agent-forwarding,no-X11-forwarding,comm
 # Set injected file permissions
 bootcmd:
     - chmod 0500 /usr/sbin/puppet-init
-    - chmod 0400 /root/.ssh/id_rsa
-    - chmod 0600 /root/.ssh/known_hosts
 
 # Run Puppet
 runcmd:
