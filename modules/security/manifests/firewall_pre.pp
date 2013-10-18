@@ -18,6 +18,7 @@
 
 class security::firewall_pre {
   Firewall {
+    before  => undef,
     require => undef,
   }
 

@@ -19,8 +19,9 @@
 class security::firewall_post {
   # Drop connections that don't match
   firewall {'999 drop all':
-    proto  => 'all',
-    action => 'drop',
-    before => undef,
+    proto   => 'all',
+    action  => 'drop',
+    before  => undef,
+    require => undef,
   }
 }
