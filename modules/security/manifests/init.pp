@@ -28,6 +28,12 @@ class security {
     group => root,
   }
 
+  # Firewall defaults
+  Firewall {
+    before => Class['security::firewall_pre'],
+    require  => Class['security::firewall_post'],
+  }
+
   file {['/etc/passwd','/etc/group','/etc/fstab']:
     mode  => '0644',
   }

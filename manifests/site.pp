@@ -29,12 +29,6 @@ node default {
   }
   class {'nagios':}
 
-  # Firewall defaults
-  Firewall {
-    before => Class['security::firewall_pre'],
-    require  => Class['security::firewall_post'],
-  }
-
   # Create a default user
   user {'ec2-user':
     ensure     => present,
