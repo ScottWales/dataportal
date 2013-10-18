@@ -36,7 +36,7 @@ class security {
 
   Firewall {
     before => Class['security::firewall_pre'],
-    after  => Class['security::firewall_post'],
+    require  => Class['security::firewall_post'],
   }
   class {['security::firewall_pre',
           'security::firewall_post',
