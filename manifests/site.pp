@@ -21,12 +21,13 @@ node default {
   include ssh
   include security
   include sudo
-  include tomcat
 
   class {'apache':
-    default_mods  => false,
     default_vhost => false,
+    default_mods  => false,
+    mpm_module    => prefork,
   }
+  class {'nagios':}
 
   firewall {'101 allow ssh':
     port   => 22,
