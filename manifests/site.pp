@@ -29,29 +29,10 @@ node default {
   }
   class {'nagios':}
 
-  # Remove any firewall rules not defined in puppet
-  resources {'firewall':
-    purge => true,
-  }
-
+  # Firewall defaults
   Firewall {
     before => Class['security::firewall_pre'],
     require  => Class['security::firewall_post'],
-  }
-  class {['security::firewall_pre',
-          'security::firewall_post',
-          'firewall']:
-  }
-
-  firewall {'101 allow ssh':
-    port   => 22,
-    proto  => tcp,
-    action => accept,
-  }
-  firewall {'102 allow http/s':
-    port   => [80,443],
-    proto  => tcp,
-    action => accept,
   }
 
   # Create a default user

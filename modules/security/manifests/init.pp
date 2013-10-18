@@ -19,6 +19,10 @@
 # Various security features
 
 class security {
+  include firewall
+  include security::firewall_pre
+  include security::firewall_post
+
   File {
     owner => root,
     group => root,
@@ -32,6 +36,22 @@ class security {
   }
   file {'/root':
     mode  => '0500',
+  }
+
+  # Remove any firewall rules not defined in puppet
+  resources {'firewall':
+    purge => true,
+  }
+
+  firewall {'101 allow ssh':
+    port   => 22,
+    proto  => tcp,
+    action => accept,
+  }
+  firewall {'102 allow http/s':
+    port   => [80,443],
+    proto  => tcp,
+    action => accept,
   }
 
 }
