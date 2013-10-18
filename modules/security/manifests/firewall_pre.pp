@@ -1,4 +1,4 @@
-## \file    modules/security/manifests/init.pp
+## \file    modules/security/manifests/firewall_pre.pp
 #  \author  Scott Wales <scott.wales@unimelb.edu.au>
 #  \brief
 #
@@ -16,30 +16,24 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-# Various security features
-
-class security {
-  File {
-    owner => root,
-    group => root,
-  }
-
-  file {['/etc/passwd','/etc/group','/etc/fstab']:
-    mode  => '0644',
-  }
-  file {'/etc/shadow':
-    mode  => '0000',
-  }
-  file {'/root':
-    mode  => '0500',
-  }
-
+class security::firewall_pre {
   Firewall {
-    before => Class['security::firewall_pre'],
-    after  => Class['security::firewall_post'],
+    require => undef,
   }
-  class {['security::firewall_pre',
-          'security::firewall_post',
-          'firewall']:
+
+  # Defaults
+  firewall {'000 accept all icmp':
+    proto  => 'icmp',
+    action => 'accept',
+  } ->
+  firewall {'001 accept all loopbacks':
+    proto   => 'all',
+    iniface => 'lo',
+    action  => 'accept',
+  } ->
+  firewall {'002 accept established':
+    proto  => 'all',
+    state  => ['RELATED','ESTABLISHED'],
+    action => 'accept',
   }
 }

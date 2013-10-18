@@ -1,4 +1,4 @@
-## \file    modules/security/manifests/init.pp
+## \file    modules/security/manifests/firewall_post.pp
 #  \author  Scott Wales <scott.wales@unimelb.edu.au>
 #  \brief
 #
@@ -16,30 +16,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-# Various security features
-
-class security {
-  File {
-    owner => root,
-    group => root,
-  }
-
-  file {['/etc/passwd','/etc/group','/etc/fstab']:
-    mode  => '0644',
-  }
-  file {'/etc/shadow':
-    mode  => '0000',
-  }
-  file {'/root':
-    mode  => '0500',
-  }
-
-  Firewall {
-    before => Class['security::firewall_pre'],
-    after  => Class['security::firewall_post'],
-  }
-  class {['security::firewall_pre',
-          'security::firewall_post',
-          'firewall']:
+class security::firewall_post {
+  # Drop connections that don't match
+  firewall {'999 drop all':
+    proto  => 'all',
+    action => 'drop',
+    before => undef,
   }
 }

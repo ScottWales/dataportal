@@ -16,3 +16,6 @@
 [submodule "modules/sudo"]
 	path = modules/sudo
 	url = https://github.com/saz/puppet-sudo
+[submodule "modules/firewall"]
+	path = modules/firewall
+	url = https://github.com/puppetlabs/puppetlabs-firewall
