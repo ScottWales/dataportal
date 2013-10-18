@@ -16,3 +16,6 @@
 [submodule "modules/firewall"]
 	path = modules/firewall
 	url = https://github.com/puppetlabs/puppetlabs-firewall
+[submodule "modules/security"]
+	path = modules/security
+	url = https://github.com/ScottWales/puppet-security
