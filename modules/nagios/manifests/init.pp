@@ -45,6 +45,9 @@ class nagios (
     owner  => 'apache',
     source => 'puppet:///modules/nagios/htpasswd',
   }
+  file {'/etc/nagios/objects/localhost.cfg':
+    source => 'puppet:///modules/nagios/localhost.cfg',
+  }
 
   # Puppet says it loads lenses in lib/augeas/lenses, but it doesn't
   $module_path = get_module_path('nagios')
