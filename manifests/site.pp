@@ -29,6 +29,20 @@ node default {
   }
   class {'nagios':}
 
+  # Remove any firewall rules not defined in puppet
+  resources {'firewall':
+    purge => true,
+  }
+
+  Firewall {
+    before => Class['security::firewall_pre'],
+    require  => Class['security::firewall_post'],
+  }
+  class {['security::firewall_pre',
+          'security::firewall_post',
+          'firewall']:
+  }
+
   firewall {'101 allow ssh':
     port   => 22,
     proto  => tcp,

@@ -34,12 +34,4 @@ class security {
     mode  => '0500',
   }
 
-  Firewall {
-    before => Class['security::firewall_pre'],
-    require  => Class['security::firewall_post'],
-  }
-  class {['security::firewall_pre',
-          'security::firewall_post',
-          'firewall']:
-  }
 }
