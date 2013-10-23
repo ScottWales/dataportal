@@ -29,7 +29,7 @@ node default {
   }
 
   class {'apache':
-    default_vhost => false,
+    default_vhost => true,
     default_mods  => false,
     mpm_module    => prefork,
   }
