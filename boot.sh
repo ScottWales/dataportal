@@ -31,7 +31,7 @@ else
 fi
 
 flavor="m1.small"
-key=walesnix
+key=$(hostname)
 secgroups="ssh,http"
 
 nova boot \
