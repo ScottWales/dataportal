@@ -27,7 +27,10 @@ node default {
     default_mods  => false,
     mpm_module    => prefork,
   }
-  class {'nagios':}
+
+  class {'monitoring':
+    monitor_ip => '127.0.0.1',
+  }
 
   # Create a default user
   user {'ec2-user':
