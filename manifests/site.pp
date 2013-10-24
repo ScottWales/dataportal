@@ -22,6 +22,12 @@ node default {
   include security
   include sudo
 
+  # Firewall defaults
+  Firewall {
+    before => Class['security::firewall_pre'],
+    require  => Class['security::firewall_post'],
+  }
+
   class {'apache':
     default_vhost => false,
     default_mods  => false,
