@@ -19,7 +19,7 @@
 node default {
 
   include ssh
-  #  include security
+  include security
   include sudo
 
   # Firewall defaults
