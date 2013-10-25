@@ -25,8 +25,16 @@ rpm -i http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-7.noarc
 yum install --assumeyes --quiet puppet git redhat-lsb-core
 
 rm -rf /etc/puppet
-git clone --quiet https://github.com/ScottWales/base-vm /etc/puppet
-cd /etc/puppet && git submodule update --quiet --init
+git clone https://github.com/ScottWales/base-vm /etc/puppet &> /dev/null
+if [ $? != 0 ]; then
+    echo "Git clone failed"
+    exit -1
+fi
+cd /etc/puppet && git submodule update --init &> /dev/null
+if [ $? != 0 ]; then
+    echo "Submodule update failed"
+    exit -1
+fi
 
 puppet apply --color false /etc/puppet/manifests/site.pp
 echo "======================================================================"
