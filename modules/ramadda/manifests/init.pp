@@ -13,7 +13,7 @@
 # limitations under the License.
 
 class ramadda {
-    require tomcat
+    include tomcat
 
     vcsrepo {'/tmp/ramadda':
         source => 'svn://svn.code.sf.net/p/ramadda/code',
@@ -33,6 +33,7 @@ class ramadda {
     file {'/var/lib/tomcat6/webapps/repository.war':
         require => Exec['ant'],
         source => '/tmp/ramadda/dist/repository.war',
+        require => Class['tomcat']
         notify => Service['tomcat6'],
     }
 
@@ -41,5 +42,6 @@ class ramadda {
         ensure => directory,
         owner => 'tomcat',
         group => 'tomcat',
+        require => Class['tomcat']
     }
 }
