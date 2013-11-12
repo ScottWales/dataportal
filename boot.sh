@@ -31,8 +31,8 @@ else
 fi
 
 flavor="m1.small"
-key=$(hostname)
-secgroups="ssh,http,nrpe"
+key=$(hostname -s)
+secgroups="ssh,http"
 
 nova boot \
     --flavor "$flavor" \
