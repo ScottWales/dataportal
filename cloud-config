@@ -1,0 +1,13 @@
+#cloud-config
+
+# Don't allow ssh access for root
+disable_root: true
+disable_root_opts: no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user \"$USER\" rather than the user \"root\".';echo;sleep 10"
+
+# Set injected file permissions
+bootcmd:
+    - chmod 0500 /usr/sbin/puppet-init
+
+# Run Puppet
+runcmd:
+    - /usr/sbin/puppet-init
