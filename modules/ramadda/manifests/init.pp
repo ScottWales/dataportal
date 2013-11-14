@@ -32,7 +32,7 @@ class ramadda {
     # Install
     file {'/var/lib/tomcat6/webapps/repository.war':
         source  => '/tmp/ramadda/dist/repository.war',
-        require => [Class['tomcat'],Exec['ant']],
+        require => Exec['ant'],
         notify  => Service['tomcat6'],
     }
 
