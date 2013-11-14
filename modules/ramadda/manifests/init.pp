@@ -19,6 +19,7 @@ class ramadda {
         ensure   => present,
         source   => 'svn://svn.code.sf.net/p/ramadda/code',
         provider => svn,
+        require  => Package['subversion'],
     }
 
     # Build from subversion
