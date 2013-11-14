@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Copyright 2013 ARC CoE for Climate System Science
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,21 +15,48 @@
 
 
 node default {
+  include ssh
+  include security
+  include sudo
 
-    # Bare-bones apache install
-    class {'apache':
-        default_mods => false,
-        default_vhost => false,
-    }
+  # Firewall defaults
+  Firewall {
+    before => Class['security::firewall_pre'],
+    require  => Class['security::firewall_post'],
+  }
 
-    # Tomcat will be the default apache vhost
-    class {'tomcat':}
+  # Bare-bones apache install
+  class {'apache':
+    default_mods => false,
+    default_vhost => false,
+  }
 
-    # Ramadda will be at http://$fqdn/repository
-    class {'ramadda':}
+  # Tomcat will be the default apache vhost
+  class {'tomcat':}
 
-    # Dependencies
-    package {'subversion':}
-    package {'ant':}
+  # Ramadda will be at http://$fqdn/repository
+  class {'ramadda':}
 
+  # Dependencies
+  package {'subversion':}
+  package {'ant':}
+
+  # Create a default user
+  user {'ec2-user':
+    ensure     => present,
+    managehome => true,
+    home       => '/home/ec2-user',
+  } ->
+  file {'/home/ec2-user/.ssh':
+    ensure => directory,
+  } ->
+  file {'/home/ec2-user/.ssh/authorized_keys':
+    ensure  => present,
+    content => $::ec2_public_keys_0_openssh_key,
+  }
+
+  sudo::conf {'ec2-user':
+    content => "ec2-user ALL=(ALL) NOPASSWD: ALL\n",
+    require => User['ec2-user'],
+  }
 }

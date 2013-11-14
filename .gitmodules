@@ -1,18 +1,33 @@
-[submodule "apache"]
-	path = apache
-	url = https://github.com/puppetlabs/puppetlabs-apache
-[submodule "modules/apache"]
-	path = modules/apache
-	url = https://github.com/puppetlabs/puppetlabs-apache
-[submodule "modules/stdlib"]
-	path = modules/stdlib
-	url = https://github.com/puppetlabs/puppetlabs-stdlib
-[submodule "modules/concat"]
-	path = modules/concat
-	url = https://github.com/puppetlabs/puppetlabs-concat
 [submodule "modules/vcsrepo"]
 	path = modules/vcsrepo
 	url = https://github.com/puppetlabs/puppetlabs-vcsrepo
 [submodule "modules/java"]
 	path = modules/java
 	url = https://github.com/puppetlabs/puppetlabs-java
+[submodule "modules/stdlib"]
+	path = modules/stdlib
+	url = https://github.com/puppetlabs/puppetlabs-stdlib
+[submodule "modules/apache"]
+	path = modules/apache
+	url = https://github.com/puppetlabs/puppetlabs-apache
+[submodule "modules/concat"]
+	path = modules/concat
+	url = https://github.com/puppetlabs/puppetlabs-concat
+[submodule "modules/epel"]
+	path = modules/epel
+	url = https://github.com/stahnma/puppet-module-epel
+[submodule "modules/sudo"]
+	path = modules/sudo
+	url = https://github.com/saz/puppet-sudo
+[submodule "modules/firewall"]
+	path = modules/firewall
+	url = https://github.com/puppetlabs/puppetlabs-firewall
+[submodule "modules/security"]
+	path = modules/security
+	url = https://github.com/ScottWales/puppet-security
+[submodule "modules/monitoring"]
+	path = modules/monitoring
+	url = https://github.com/ScottWales/puppet-monitoring
+[submodule "modules/augeasproviders"]
+	path = modules/augeasproviders
+	url = https://github.com/hercules-team/augeasproviders
