@@ -33,7 +33,7 @@ class ramadda {
     file {'/var/lib/tomcat6/webapps/repository.war':
         require => Exec['ant'],
         source => '/tmp/ramadda/dist/repository.war',
-        require => Class['tomcat']
+        require => Class['tomcat'],
         notify => Service['tomcat6'],
     }
 
