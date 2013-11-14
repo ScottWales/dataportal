@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Copyright 2013 ARC CoE for Climate System Science
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
