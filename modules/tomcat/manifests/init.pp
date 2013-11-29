@@ -15,6 +15,8 @@
 class tomcat ($vhost_name = '*') {
   require java
 
+  $home = '/usr/share/tomcat6'
+
   package {'tomcat6':}
 
   service {'tomcat6':
