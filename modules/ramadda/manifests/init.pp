@@ -44,9 +44,10 @@ class ramadda ($home = '/var/ramadda') {
     }
 
     # Configuration
-    file {'/usr/share/tomcat6/conf/repository.properties':
+    file {"${tomcat::home}/conf/repository.properties":
         ensure  => present,
         content => "ramadda_home=${ramadda::home}",
+        require => Package['tomcat6'],
         notify  => Service['tomcat6'],
     }
 
