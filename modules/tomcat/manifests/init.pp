@@ -22,4 +22,6 @@ class tomcat ($vhost_name = '*') {
     require => Package['tomcat6'],
   }
 
+  # Required for the webapp vhosts
+  class {'apache::mod::proxy_http':}
 }

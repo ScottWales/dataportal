@@ -23,6 +23,7 @@ define tomcat::webapp(
   $vhost = '*',
 ) {
 
+  # Install the war
   file {"${tomcat::home}/webapps/${title}.war":
     source => $war,
     notify => Service['tomcat6'],
@@ -38,8 +39,11 @@ define tomcat::webapp(
       'path' => "/${title}",
       'url'  => "http://localhost:8080/${title}"
     }],
+    # Redirect the base URL to the war directory
     custom_fragment => "RedirectMatch 302 ^/$ /${title}",
   }
+
+  # Redirect http connections to https
   apache::vhost {"tomcat-redirect-${title}":
     vhost_name      => $vhost,
     port            => 80,
