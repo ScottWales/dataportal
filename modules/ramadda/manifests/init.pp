@@ -64,6 +64,7 @@ class ramadda ($home = '/var/ramadda') {
     file {"${ramadda::home}/db.properties":
       ensure  => present,
       content => template('ramadda/db.properties.erb'),
+      notify  => Service['tomcat6'],
     }
 
 }
