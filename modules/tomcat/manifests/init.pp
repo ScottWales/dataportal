@@ -17,7 +17,8 @@ class tomcat ($vhost_name = '*') {
 
   $home = '/usr/share/tomcat6'
 
-  package {'tomcat6':}
+  package {'tomcat6':} ->
+  user {'tomcat':}
 
   service {'tomcat6':
     ensure  => running,
