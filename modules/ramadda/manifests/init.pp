@@ -52,9 +52,9 @@ class ramadda ($home = '/var/ramadda') {
         notify  => Service['tomcat6'],
     }
 
-	postgresql::server::db {'ramadda':
-	user => 'ramadda',
-	password => postgresql_password('ramadda','test'),
-}
-	
+    postgresql::server::db {'ramadda':
+      user => 'ramadda',
+      password => postgresql_password('ramadda','test'),
+    }
+
 }
