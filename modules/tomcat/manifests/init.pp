@@ -33,6 +33,7 @@ class tomcat ($vhost_name = '*', $port = '80') {
       'path'=> '/repository',
       'url' => 'http://localhost:8080/repository'
     }],
+	custom_fragment => 'RedirectMatch 302 ^/$ /repository',
   }
   apache::vhost {'tomcat-redirect':
     vhost_name      => $vhost_name,
