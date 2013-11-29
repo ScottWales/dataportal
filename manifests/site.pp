@@ -41,4 +41,11 @@ node default {
   package {'subversion':}
   package {'ant':}
 
+  # Floating IPs
+  host {'production':
+    ip => '130.56.244.112',
+  }
+  host {'test':
+    ip => '130.56.244.113',
+  }
 }
