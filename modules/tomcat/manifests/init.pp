@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class tomcat ($vhost_name = '*', $port = '80') {
+class tomcat ($vhost_name = '*') {
   require java
 
   package {'tomcat6':}
@@ -25,15 +25,15 @@ class tomcat ($vhost_name = '*', $port = '80') {
   # Get apache to forward connections to tomcat
   class {'apache::mod::proxy_http':}
   apache::vhost {'tomcat':
-    vhost_name => $vhost_name,
-    port       => 443,
-    ssl        => true,
-    docroot    => '/var/www/tomcat',
-    proxy_pass => [{
-      'path'=> '/repository',
-      'url' => 'http://localhost:8080/repository'
+    vhost_name      => $vhost_name,
+    port            => 443,
+    ssl             => true,
+    docroot         => '/var/www/tomcat',
+    proxy_pass      => [{
+      'path' => '/repository',
+      'url'  => 'http://localhost:8080/repository'
     }],
-	custom_fragment => 'RedirectMatch 302 ^/$ /repository',
+    custom_fragment => 'RedirectMatch 302 ^/$ /repository',
   }
   apache::vhost {'tomcat-redirect':
     vhost_name      => $vhost_name,
