@@ -32,16 +32,9 @@ class ramadda ($home = '/var/ramadda') {
         creates => '/tmp/ramadda/dist/repository.war',
     }
 
-    # Install
-    file {'/var/lib/tomcat6/webapps/repository.war':
-        source  => '/tmp/ramadda/dist/repository.war',
-        require => [Exec['ant'],File[$ramadda::home]],
-        notify  => Service['tomcat6'],
-    }
-
     tomcat::webapp {'ramadda':
-      war   => '/tmp/ramadda/dist/repository.war',
-      vhost => '*',
+      war     => '/tmp/ramadda/dist/repository.war',
+      vhost   => '*',
       require => [Exec['ant'],File[$ramadda::home]],
     }
 
@@ -69,6 +62,8 @@ class ramadda ($home = '/var/ramadda') {
 
     file {"${ramadda::home}/db.properties":
       ensure  => present,
+      owner   => tomcat,
+      mode    => '0500',
       content => template('ramadda/db.properties.erb'),
       notify  => Service['tomcat6'],
     }
