@@ -31,3 +31,6 @@
 [submodule "modules/augeasproviders"]
 	path = modules/augeasproviders
 	url = https://github.com/hercules-team/augeasproviders
+[submodule "modules/postgresql"]
+	path = modules/postgresql
+	url = https://github.com/puppetlabs/puppetlabs-postgresql
