@@ -32,7 +32,7 @@ class ramadda ($home = '/var/ramadda') {
         creates => '/tmp/ramadda/dist/repository.war',
     }
 
-    tomcat::webapp {'ramadda':
+    tomcat::webapp {'repository':
       war     => '/tmp/ramadda/dist/repository.war',
       vhost   => '*',
       require => [Exec['ant'],File[$ramadda::home]],
