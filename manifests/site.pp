@@ -17,6 +17,7 @@ node default {
   include ssh
   include security
   include sudo
+  include ec2user
 
   # Firewall defaults
   Firewall {
@@ -26,7 +27,6 @@ node default {
 
   # Bare-bones apache install
   class {'apache':
-    default_mods => false,
     default_vhost => false,
   }
 
@@ -40,22 +40,16 @@ node default {
   package {'subversion':}
   package {'ant':}
 
-  # Create a default user
-  user {'ec2-user':
-    ensure     => present,
-    managehome => true,
-    home       => '/home/ec2-user',
-  } ->
-  file {'/home/ec2-user/.ssh':
-    ensure => directory,
-  } ->
-  file {'/home/ec2-user/.ssh/authorized_keys':
-    ensure  => present,
-    content => $::ec2_public_keys_0_openssh_key,
+  # Floating IPs
+  host {'production':
+    ip => '130.56.244.112',
+  }
+  host {'test':
+    ip => '130.56.244.113',
   }
 
-  sudo::conf {'ec2-user':
-    content => "ec2-user ALL=(ALL) NOPASSWD: ALL\n",
-    require => User['ec2-user'],
-  }
+  # Database
+  class {'postgresql::server':
+	postgres_password => 'test',
+	}
 }

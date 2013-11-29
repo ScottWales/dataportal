@@ -16,15 +16,35 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# Install a war file & setup an apache vhost for it
+
 define tomcat::webapp(
-  $vhost_name = '*',
-  $port = 80,
+  $war,
+  $vhost = '*',
 ) {
 
-  include apache::mod::proxy_ajp
-  apache::vhost {"tomcat-${title}":
-    docroot    => '/var/www/html',
-    proxy_dest => 'ajp://localhost:8009/',
+  file {"${tomcat::home}/webapps/${title}.war":
+    source => $war,
+    notify => Service['tomcat6'],
   }
 
+  # Get apache to forward connections to tomcat
+  apache::vhost {"tomcat-${title}":
+    vhost_name      => $vhost,
+    port            => 443,
+    ssl             => true,
+    docroot         => '/var/www/tomcat',
+    proxy_pass      => [{
+      'path' => "/${title}",
+      'url'  => "http://localhost:8080/${title}"
+    }],
+    custom_fragment => "RedirectMatch 302 ^/$ /${title}",
+  }
+  apache::vhost {"tomcat-redirect-${title}":
+    vhost_name      => $vhost,
+    port            => 80,
+    docroot         => '/var/www/tomcat',
+    redirect_status => 'permanent',
+    redirect_dest   => 'https://130.56.244.112/',
+  }
 }
