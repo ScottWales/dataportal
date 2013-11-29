@@ -39,6 +39,12 @@ class ramadda ($home = '/var/ramadda') {
         notify  => Service['tomcat6'],
     }
 
+    tomcat::webapp {'ramadda':
+      war   => '/tmp/ramadda/dist/repository.war',
+      vhost => '*',
+      require => [Exec['ant'],File[$ramadda::home]],
+    }
+
     file {$ramadda::home:
       ensure => directory,
       owner  => 'tomcat',
