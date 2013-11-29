@@ -48,13 +48,22 @@ class ramadda ($home = '/var/ramadda') {
     file {'/usr/share/tomcat6/conf/repository.properties':
         ensure  => present,
         content => "ramadda_home=${ramadda::home}",
-        owner   => 'tomcat',
         notify  => Service['tomcat6'],
     }
 
-    postgresql::server::db {'ramadda':
-      user => 'ramadda',
-      password => postgresql_password('ramadda','test'),
+    # Setup postgres
+    $postgres_db = 'ramadda'
+    $postgres_user = 'ramadda'
+    $postgres_passwd = 'TODO:changeme'
+
+    postgresql::server::db {$postgres_db:
+      user     => $postgres_user,
+      password => postgresql_password($postgres_user,$postgres_passwd),
+    }
+
+    file {"${ramadda::home}/db.properties":
+      ensure  => present,
+      content => template('ramadda/db.properties.erb'),
     }
 
 }
