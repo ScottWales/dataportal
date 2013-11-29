@@ -14,7 +14,7 @@
 
 # Install Ramadda
 
-class ramadda (home = '/var/ramadda') {
+class ramadda ($home = '/var/ramadda') {
     include tomcat
 
     vcsrepo {'/tmp/ramadda':
@@ -46,9 +46,15 @@ class ramadda (home = '/var/ramadda') {
 
     # Configuration
     file {'/usr/share/tomcat6/conf/repository.properties':
-        ensure   => present,
-        contents => "ramadda_home=${ramadda::home}",
-        owner    => 'tomcat',
-        require  => Class['tomcat'],
+        ensure  => present,
+        content => "ramadda_home=${ramadda::home}",
+        owner   => 'tomcat',
+        notify  => Service['tomcat6'],
     }
+
+	postgresql::server::db {'ramadda':
+	user => 'ramadda',
+	password => postgresql_password('ramadda','test'),
+}
+	
 }

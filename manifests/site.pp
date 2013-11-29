@@ -48,4 +48,9 @@ node default {
   host {'test':
     ip => '130.56.244.113',
   }
+
+  # Database
+  class {'postgresql::server':
+	postgres_password => 'test',
+	}
 }
