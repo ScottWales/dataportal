@@ -27,7 +27,6 @@ node default {
 
   # Bare-bones apache install
   class {'apache':
-    default_mods  => false,
     default_vhost => false,
   }
 

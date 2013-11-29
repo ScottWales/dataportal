@@ -26,8 +26,16 @@ class tomcat ($vhost_name = '*', $port = '80') {
     class {'apache::mod::proxy_http':}
     apache::vhost {'tomcat':
         vhost_name => $vhost_name,
-        port => $port, 
+        port => 443, 
+	ssl => true,
         docroot => '/var/www/tomcat',
         proxy_pass => [{'path'=>'/repository','url'=>'http://localhost:8080/repository'}],
+    }
+    apache::vhost {'tomcat-redirect':
+        vhost_name => $vhost_name,
+        port => 80, 
+        docroot => '/var/www/tomcat',
+	redirect_status => 'permanent',
+	redirect_dest => "https://130.56.244.112/",
     }
 }
