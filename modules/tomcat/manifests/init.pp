@@ -15,6 +15,8 @@
 class tomcat ($vhost_name = '*') {
   require java
 
+  $home = '/usr/share/tomcat6'
+
   package {'tomcat6':}
 
   service {'tomcat6':
@@ -22,4 +24,6 @@ class tomcat ($vhost_name = '*') {
     require => Package['tomcat6'],
   }
 
+  # Required for the webapp vhosts
+  class {'apache::mod::proxy_http':}
 }
