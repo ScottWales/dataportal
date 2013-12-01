@@ -34,7 +34,7 @@ class ramadda ($home = '/var/ramadda') {
 
     tomcat::webapp {'repository':
       war     => '/tmp/ramadda/dist/repository.war',
-      vhost   => '*',
+      vhost   => 'climate-cms.dnsdynamic.com',
       require => [Exec['ant'],File[$ramadda::home]],
     }
 
