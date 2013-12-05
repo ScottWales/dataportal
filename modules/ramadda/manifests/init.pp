@@ -20,6 +20,7 @@ class ramadda ($home = '/var/ramadda') {
     vcsrepo {'/tmp/ramadda':
         ensure   => present,
         source   => 'svn://svn.code.sf.net/p/ramadda/code',
+        revision => '3334',
         provider => svn,
         require  => Package['subversion'],
     }
