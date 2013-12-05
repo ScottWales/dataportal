@@ -32,15 +32,15 @@ fi
 
 flavor="m1.small"
 key=$(hostname -s)
-secgroups="ssh,http"
+#secgroups="ssh,http"
 
 nova boot \
     --flavor "$flavor" \
     --image "$image" \
     --key_name "$key" \
     --security_groups "$secgroups" \
-    --user_data cloud-config \
-    --file "/usr/sbin/puppet-init=puppet-init" \
     --poll \
     $vmname
 
+#    --user_data cloud-config \
+#    --file "/usr/sbin/puppet-init=puppet-init" \
