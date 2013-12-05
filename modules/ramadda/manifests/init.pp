@@ -17,7 +17,13 @@
 class ramadda ($home = '/var/ramadda') {
     include tomcat
 
-    vcsrepo {'/tmp/ramadda':
+    $builddir = '/tmp/ramadda'
+
+    File {
+      owner => 'tomcat',
+    }
+
+    vcsrepo {$ramadda::builddir:
         ensure   => present,
         source   => 'svn://svn.code.sf.net/p/ramadda/code',
         revision => '3334',
@@ -26,22 +32,21 @@ class ramadda ($home = '/var/ramadda') {
     }
 
     # Build from subversion
-    exec {'ant':
+    exec {'Build Ramadda':
         command => '/usr/bin/ant',
-        cwd     => '/tmp/ramadda',
+        cwd     => $ramadda::builddir,
         require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
-        creates => '/tmp/ramadda/dist/repository.war',
+        creates => "${ramadda::builddir}/dist/repository.war",
     }
 
     tomcat::webapp {'repository':
-      war     => '/tmp/ramadda/dist/repository.war',
+      war     => "${ramadda::builddir}/dist/repository.war",
       vhost   => '*',
-      require => [Exec['ant'],File[$ramadda::home]],
+      require => [Exec['Build Ramadda'],File[$ramadda::home]],
     }
 
     file {$ramadda::home:
       ensure => directory,
-      owner  => 'tomcat',
     }
 
     # Configuration
@@ -64,10 +69,30 @@ class ramadda ($home = '/var/ramadda') {
 
     file {"${ramadda::home}/db.properties":
       ensure  => present,
-      owner   => tomcat,
       mode    => '0500',
       content => template('ramadda/db.properties.erb'),
       notify  => Service['tomcat6'],
+    }
+
+    file {"${ramadda::home}/plugins":
+      ensure => directory,
+    }
+
+    file {"${ramadda::home}/plugins/userguideplugin.jar":
+      source  => "${ramadda::builddir}/dist/plugins/userguideplugin.jar",
+      require => Exec['Build Ramadda'],
+    }
+    file {"${ramadda::home}/plugins/threddsplugin.jar":
+      source  => "${ramadda::builddir}/dist/plugins/threddsplugin.jar",
+      require => Exec['Build Ramadda'],
+    }
+    file {"${ramadda::home}/plugins/ldapplugin.jar":
+      source  => "${ramadda::builddir}/dist/plugins/ldapplugin.jar",
+      require => Exec['Build Ramadda'],
+    }
+    file {"${ramadda::home}/plugins/zzzcdmdataplugin.jar":
+      source  => "${ramadda::builddir}/dist/plugins/zzzcdmdataplugin.jar",
+      require => Exec['Build Ramadda'],
     }
 
 }
