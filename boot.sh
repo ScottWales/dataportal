@@ -55,9 +55,9 @@ nova boot \
     --security_groups "$secgroups" \
     --user_data cloud-config \
     --file "/usr/sbin/puppet-init=puppet-init" \
-    --meta "cloud=$cloud"
-    --meta "environment=$environment"
-    --meta "puppetrepo=$puppetrepo"
+    --meta "cloud=$cloud" \
+    --meta "environment=$environment" \
+    --meta "puppetrepo=$puppetrepo" \
     --poll \
     $vmname
 
