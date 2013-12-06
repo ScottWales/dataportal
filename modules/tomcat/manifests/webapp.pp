@@ -49,6 +49,6 @@ define tomcat::webapp(
     port            => 80,
     docroot         => '/var/www/tomcat',
     redirect_status => 'permanent',
-    redirect_dest   => 'https://130.56.244.112/',
+    redirect_dest   => "https://${::ec2_public_ipv4}/",
   }
 }
