@@ -37,7 +37,7 @@ define tomcat::webapp(
     docroot         => '/var/www/tomcat',
     proxy_pass      => [{
       'path' => "/${title}",
-      'url'  => "http://localhost:8080/${title}"
+      'url'  => "ajp://localhost:8009/${title}"
     }],
     # Redirect the base URL to the war directory
     custom_fragment => "RedirectMatch 302 ^/$ /${title}",
