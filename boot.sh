@@ -17,30 +17,47 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# Make sure origin is up to date
 git push
 
-vmname=$USER-base-vm
-nova delete $vmname
+# Metadata defaults for the VM
+# ============================
+vmname=${1:-"$USER-base-vm"} # VM name
+environment="test"           # Test or production
+cloud="NCI"                  # Cloud to use
+puppetrepo="https://github.com/ScottWales/dataportal"
+                             # Git repo for puppet
 
+# Which cloud are we on?
+# ======================
 if [ "$OS_AUTH_URL" == "https://keystone.rc.nectar.org.au:5000/v2.0/" ]; then
     # NeCTAR cloud
     image="NeCTAR CentOS 6.4 x86_64"
+    cloud="NeCTAR"
 else
     # NCI cloud
     image="centos-6.4-20130920"
+    cloud="NCI"
 fi
 
+# Misc. stuff for booting
+# =======================
 flavor="m1.small"
 key=$(hostname -s)
-#secgroups="ssh,http"
+secgroups="ssh,http"
 
+# Do the boot
+# ===========
 nova boot \
     --flavor "$flavor" \
     --image "$image" \
     --key_name "$key" \
     --security_groups "$secgroups" \
+    --user_data cloud-config \
+    --file "/usr/sbin/puppet-init=puppet-init" \
+    --meta "cloud=$cloud"
+    --meta "environment=$environment"
+    --meta "puppetrepo=$puppetrepo"
     --poll \
     $vmname
 
-#    --user_data cloud-config \
-#    --file "/usr/sbin/puppet-init=puppet-init" \
