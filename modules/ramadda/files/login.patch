@@ -1,0 +1,76 @@
+Index: src/org/ramadda/repository/auth/UserManager.java
+===================================================================
+--- src/org/ramadda/repository/auth/UserManager.java	(revision 3334)
++++ src/org/ramadda/repository/auth/UserManager.java	(working copy)
+@@ -2869,44 +2869,42 @@
+                                         Clause.eq(Tables.USERS.COL_ID, name));
+ 
+         ResultSet results = statement.getResultSet();
++        User user = null;
+ 
+-        //User is not in the database
++        //User is in the database
+         if ( !results.next()) {
+-            return null;
+-        }
++            String storedHash =
++                results.getString(Tables.USERS.COL_NODOT_PASSWORD);
++            if ( !Utils.stringDefined(storedHash)) {
++                return null;
++            }
+ 
+-        String storedHash =
+-            results.getString(Tables.USERS.COL_NODOT_PASSWORD);
+-        if ( !Utils.stringDefined(storedHash)) {
+-            return null;
+-        }
++            //Call getPasswordToUse to add the system salt
++            boolean userOK =
++                PasswordHash.validatePassword(getPasswordToUse(password),
++                                              storedHash);
+ 
+-        //Call getPasswordToUse to add the system salt
+-        boolean userOK =
+-            PasswordHash.validatePassword(getPasswordToUse(password),
+-                                          storedHash);
++            //Check for old formats of hashes
++            if ( !userOK) {
++                userOK = storedHash.equals(hashPassword_oldway(password));
++                //            System.err.println ("trying the old way:" + userOK);
++            }
+ 
+-        //Check for old formats of hashes
+-        if ( !userOK) {
+-            userOK = storedHash.equals(hashPassword_oldway(password));
+-            //            System.err.println ("trying the old way:" + userOK);
+-        }
++            if ( !userOK) {
++                userOK = storedHash.equals(hashPassword_oldoldway(password));
++                //            System.err.println ("trying the old old way:" + userOK);
++            }
+ 
+-        if ( !userOK) {
+-            userOK = storedHash.equals(hashPassword_oldoldway(password));
+-            //            System.err.println ("trying the old old way:" + userOK);
+-        }
+ 
+-        User user = null;
++            if (userOK) {
++                user = getUser(results);
++            }
++            getDatabaseManager().closeAndReleaseConnection(statement);
+ 
+-        if (userOK) {
+-            user = getUser(results);
+-        }
+-        getDatabaseManager().closeAndReleaseConnection(statement);
+ 
+-
+-        if (user != null) {
+-            return user;
++            if (user != null) {
++                return user;
++            }
+         }
+ 
+ 

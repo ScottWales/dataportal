@@ -31,6 +31,19 @@ class ramadda ($home = '/var/ramadda') {
         require  => Package['subversion'],
     }
 
+    # Apply patches
+    # Fix bug in login code that blocks the LDAP plugin from working
+    file {"${ramadda::builddir}/login.patch":
+      ensure => present,
+      source => 'puppet:///modules/ramadda/login.patch'
+    } ->
+    exec {'Patch login':
+      command => '/usr/bin/patch -p0 < login.patch',
+      cwd     => $ramadda::builddir,
+      require => Vcsrepo[$ramadda::builddir],
+      unless  => '/usr/bin/patch --dry-run --reverse -p0 < login.patch',
+    } ->
+
     # Build from subversion
     exec {'Build Ramadda':
         command => '/usr/bin/ant',
