@@ -26,5 +26,5 @@ class tomcat ($vhost_name = '*') {
   }
 
   # Required for the webapp vhosts
-  class {'apache::mod::proxy_http':}
+  apache::mod{'proxy_ajp':}
 }
