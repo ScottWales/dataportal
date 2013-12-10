@@ -17,7 +17,8 @@ class tomcat ($vhost_name = '*') {
 
   $home = '/usr/share/tomcat6'
 
-  package {'tomcat6':}
+  package {'tomcat6':} ->
+  user {'tomcat':}
 
   service {'tomcat6':
     ensure  => running,
@@ -25,5 +26,5 @@ class tomcat ($vhost_name = '*') {
   }
 
   # Required for the webapp vhosts
-  class {'apache::mod::proxy_http':}
+  apache::mod{'proxy_ajp':}
 }
