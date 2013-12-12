@@ -19,7 +19,7 @@ class ramadda ($home  = '/var/ramadda',
     include tomcat
 
     $builddir = '/tmp/ramadda'
-
+    
     File {
       owner => 'tomcat',
     }
