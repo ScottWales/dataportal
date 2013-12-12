@@ -16,9 +16,19 @@ class tomcat ($vhost_name = '*') {
   require java
 
   $home = '/usr/share/tomcat6'
+  
+  # Manually set tomcat's UID and GID so that it can see the NFS mount
+  group {'ua8':
+    gid => 5972,
+  }
+  user {'tomcat':
+    ensure => present,
+    gid    => 'ua8',
+    uid    => '5424',
+    system => true,
+  }
 
-  package {'tomcat6':} ->
-  user {'tomcat':}
+  package {'tomcat6':}
 
   service {'tomcat6':
     ensure  => running,

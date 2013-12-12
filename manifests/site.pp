@@ -50,6 +50,18 @@ node default {
 
   # Database
   class {'postgresql::server':
-	postgres_password => 'test',
+    postgres_password => 'test',
 	}
+
+  # NFS mounts
+  include nfs::client
+  file {['/g','/g/data1']:
+    ensure => directory,
+  }
+  nfs::mount {'/g/data1/ua8':
+    share      => '/mnt/g/data1/ua8',
+    mountpoint => '/g/data1/ua8',
+    ensure     => present,
+    server     => 'nnfs3.nci.org.au',
+  }
 }

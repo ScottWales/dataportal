@@ -34,3 +34,6 @@
 [submodule "modules/postgresql"]
 	path = modules/postgresql
 	url = https://github.com/puppetlabs/puppetlabs-postgresql
+[submodule "modules/nfs"]
+	path = modules/nfs
+	url = https://github.com/camptocamp/puppet-nfs.git
