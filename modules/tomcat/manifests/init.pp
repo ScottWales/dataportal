@@ -26,6 +26,7 @@ class tomcat ($vhost_name = '*') {
     gid    => 'ua8',
     uid    => '5424',
     system => true,
+    groups => 'tomcat',
   }
 
   package {'tomcat6':}
