@@ -64,16 +64,16 @@ class ramadda ($home  = '/var/ramadda',
         require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
         creates => "${ramadda::builddir}/dist/repository.war",
     }
-    exec {'Build ldapplugin':
-        command => '/usr/bin/ant',
-        cwd     => "${ramadda::builddir}/src/org/ramadda/plugins/ldap",
-        require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
-        creates => "${ramadda::builddir}/dist/plugins/ldapplugin.jar",
-    }
+    #    exec {'Build ldapplugin':
+    #        command => '/usr/bin/ant',
+    #        cwd     => "${ramadda::builddir}/src/org/ramadda/plugins/ldap",
+    #        require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
+    #        creates => "${ramadda::builddir}/dist/plugins/ldapplugin.jar",
+    #    }
 
     tomcat::webapp {'repository':
       war     => "${ramadda::builddir}/dist/repository.war",
-      vhost   => '*',
+      vhost   => $ramadda::vhost,
       require => [Exec['Build Ramadda'],File[$ramadda::home]],
     }
 
@@ -119,7 +119,7 @@ class ramadda ($home  = '/var/ramadda',
       require => Exec['Build Ramadda'],
     }
     file {"${ramadda::home}/plugins/ldapplugin.jar":
-      source  => "${ramadda::builddir}/dist/plugins/ldapplugin.jar",
+      source  => "${ramadda::builddir}/dist/otherplugins/ldapplugin.jar",
       require => Exec['Build ldapplugin'],
     }
     file {"${ramadda::home}/plugins/zzzcdmdataplugin.jar":
