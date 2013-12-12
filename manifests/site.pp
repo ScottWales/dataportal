@@ -54,14 +54,12 @@ node default {
 	}
 
   # NFS mounts
-  include nfs::client
   file {['/g','/g/data1']:
     ensure => directory,
   }
-  nfs::mount {'/g/data1/ua8':
-    share      => '/mnt/g/data1/ua8',
-    mountpoint => '/g/data1/ua8',
-    ensure     => present,
-    server     => 'nnfs3.nci.org.au',
+  mount {'/g/data1/ua8':
+    ensure  => mounted,
+    device  => 'nnfs3.nci.org.au:/mnt/gdata1/ua8',
+    options => 'ro,nolock',
   }
 }
