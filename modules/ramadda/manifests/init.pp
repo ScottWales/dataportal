@@ -44,12 +44,30 @@ class ramadda ($home = '/var/ramadda') {
       unless  => '/usr/bin/patch --dry-run --reverse -p0 < login.patch',
     } ->
 
+    # Fix dropdown menus in the AODN style
+    file {"${ramadda::builddir}/aodn.patch":
+      ensure => present,
+      source => 'puppet:///modules/ramadda/aodn.patch'
+    } ->
+    exec {'Patch aodnStyle':
+      command => '/usr/bin/patch -p0 < aodn.patch',
+      cwd     => $ramadda::builddir,
+      require => Vcsrepo[$ramadda::builddir],
+      unless  => '/usr/bin/patch --dry-run --reverse -p0 < aodn.patch',
+    } ->
+
     # Build from subversion
     exec {'Build Ramadda':
         command => '/usr/bin/ant',
         cwd     => $ramadda::builddir,
         require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
         creates => "${ramadda::builddir}/dist/repository.war",
+    }
+    exec {'Build ldapplugin':
+        command => '/usr/bin/ant',
+        cwd     => "${ramadda::builddir}/src/org/ramadda/plugins/ldap",
+        require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
+        creates => "${ramadda::builddir}/dist/plugins/ldapplugin.jar",
     }
 
     tomcat::webapp {'repository':
@@ -101,7 +119,7 @@ class ramadda ($home = '/var/ramadda') {
     }
     file {"${ramadda::home}/plugins/ldapplugin.jar":
       source  => "${ramadda::builddir}/dist/plugins/ldapplugin.jar",
-      require => Exec['Build Ramadda'],
+      require => Exec['Build ldapplugin'],
     }
     file {"${ramadda::home}/plugins/zzzcdmdataplugin.jar":
       source  => "${ramadda::builddir}/dist/plugins/zzzcdmdataplugin.jar",
