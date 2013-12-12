@@ -14,7 +14,8 @@
 
 # Install Ramadda
 
-class ramadda ($home = '/var/ramadda') {
+class ramadda ($home  = '/var/ramadda',
+               $vhost = '*') {
     include tomcat
 
     $builddir = '/tmp/ramadda'

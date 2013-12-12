@@ -34,7 +34,9 @@ node default {
   class {'tomcat':}
 
   # Ramadda will be at http://$fqdn/repository
-  class {'ramadda':}
+  class {'ramadda':
+    vhost => 'climate-cms.nci.org.au',
+  }
 
   # Dependencies
   package {'subversion':}
