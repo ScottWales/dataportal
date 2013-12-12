@@ -56,10 +56,12 @@ node default {
   # NFS mounts
   file {['/g','/g/data1','/g/data1/ua8']:
     ensure => directory,
-  } ->
+  }
+  package {'nfs-utils':}
   mount {'/g/data1/ua8':
     ensure  => mounted,
     device  => 'nnfs3.nci.org.au:/mnt/gdata1/ua8',
     options => 'ro,nolock',
+    require => [Package['nfs-utils'],File['/g/data1/ua8']],
   }
 }
