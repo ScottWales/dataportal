@@ -30,6 +30,7 @@ if [ $? != 0 ]; then
     echo "Git clone failed"
     exit -1
 fi
+cd /etc/puppet && git checkout mount
 cd /etc/puppet && git submodule update --init &> /dev/null
 if [ $? != 0 ]; then
     echo "Submodule update failed"
