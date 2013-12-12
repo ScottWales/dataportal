@@ -21,6 +21,7 @@ class tomcat ($vhost_name = '*') {
   group {'ua8':
     gid => 5972,
   }
+  group {'tomcat':}
   user {'tomcat':
     ensure => present,
     gid    => 'ua8',
