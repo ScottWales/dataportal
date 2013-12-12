@@ -26,11 +26,12 @@ class tomcat ($vhost_name = '*') {
     ensure => present,
   }
   user {'tomcat':
-    ensure => present,
-    gid    => 'ua8',
-    uid    => '5424',
-    system => true,
-    groups => 'tomcat',
+    ensure  => present,
+    gid     => 'ua8',
+    uid     => '5424',
+    system  => true,
+    groups  => 'tomcat',
+    require => Group['ua8','tomcat'],
   }
 
   package {'tomcat6':}
