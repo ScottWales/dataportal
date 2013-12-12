@@ -120,7 +120,7 @@ class ramadda ($home  = '/var/ramadda',
     }
     file {"${ramadda::home}/plugins/ldapplugin.jar":
       source  => "${ramadda::builddir}/dist/otherplugins/ldapplugin.jar",
-      require => Exec['Build ldapplugin'],
+      require => Exec['Build Ramadda'],
     }
     file {"${ramadda::home}/plugins/zzzcdmdataplugin.jar":
       source  => "${ramadda::builddir}/dist/plugins/zzzcdmdataplugin.jar",
