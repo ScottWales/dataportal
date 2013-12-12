@@ -54,7 +54,7 @@ node default {
 	}
 
   # NFS mounts
-  file {['/g','/g/data1']:
+  file {['/g','/g/data1','/g/data1/ua8']:
     ensure => directory,
   }
   mount {'/g/data1/ua8':
