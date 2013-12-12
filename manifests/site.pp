@@ -37,6 +37,13 @@ node default {
   class {'ramadda':
     vhost => 'climate-cms.nci.org.au',
   }
+  class {'ramadda::ldap':
+    url             => 'ldap://sfldap0.anu.edu.au:389',
+    user_directory  => 'uid=${uid},ou=People,dc=apac,dc=edu,dc=au',
+    group_directory => 'ou=Group,dc=apac,dc=edu,dc=au',
+    group_attribute => 'memberUid',
+    admin_group     => 'fe2_2',
+  }
 
   # Dependencies
   package {'subversion':}
