@@ -38,7 +38,7 @@ define tomcat::webapp(
 
   # Get apache to forward connections to tomcat
   apache::vhost {"tomcat-${title}":
-    vhost_name      => $vhost,
+    vhost_name      => '*',
     port            => 443,
     ssl             => true,
     docroot         => '/var/www/tomcat',
@@ -52,7 +52,7 @@ define tomcat::webapp(
 
   # Redirect http connections to https
   apache::vhost {"tomcat-redirect-${title}":
-    vhost_name      => $vhost,
+    vhost_name      => '*',
     port            => 80,
     docroot         => '/var/www/tomcat',
     redirect_status => 'permanent',
