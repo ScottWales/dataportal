@@ -61,6 +61,7 @@ node default {
   mount {'/g/data1/ua8':
     ensure  => mounted,
     device  => 'nnfs3.nci.org.au:/mnt/gdata1/ua8',
+    fstype  => 'nfs',
     options => 'ro,nolock',
     require => [Package['nfs-utils'],File['/g/data1/ua8']],
   }
