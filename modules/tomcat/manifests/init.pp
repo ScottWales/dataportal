@@ -19,9 +19,12 @@ class tomcat ($vhost_name = '*') {
   
   # Manually set tomcat's UID and GID so that it can see the NFS mount
   group {'ua8':
+    ensure => present,
     gid => 5972,
   }
-  group {'tomcat':}
+  group {'tomcat':
+    ensure => present,
+  }
   user {'tomcat':
     ensure => present,
     gid    => 'ua8',
