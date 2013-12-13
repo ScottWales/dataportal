@@ -33,7 +33,7 @@ class ramadda::ldap (
     owner => $tomcat::user,
   }
 
-  file {"${ramadda::home}/ldap.properites":
+  file {"${ramadda::home}/ldap.properties":
     ensure  => present,
     content => template('ramadda/ldap.properties.erb'),
     notify  => Service[$tomcat::service],
