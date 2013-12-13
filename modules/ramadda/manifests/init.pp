@@ -105,6 +105,11 @@ class ramadda ($home  = '/var/ramadda',
       content => template('ramadda/db.properties.erb'),
       notify  => Service['tomcat6'],
     }
+    file {"${ramadda::home}/repository.properties":
+      ensure  => present,
+      content => 'ramadda.html.template.default=aodnStyle',
+      notify  => Service['tomcat6'],
+    }
 
     file {"${ramadda::home}/plugins":
       ensure => directory,
