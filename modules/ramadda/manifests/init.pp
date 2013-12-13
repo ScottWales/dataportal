@@ -14,11 +14,12 @@
 
 # Install Ramadda
 
-class ramadda ($home = '/var/ramadda') {
+class ramadda ($home  = '/var/ramadda',
+               $vhost = '*') {
     include tomcat
 
     $builddir = '/tmp/ramadda'
-
+    
     File {
       owner => 'tomcat',
     }
@@ -44,6 +45,18 @@ class ramadda ($home = '/var/ramadda') {
       unless  => '/usr/bin/patch --dry-run --reverse -p0 < login.patch',
     } ->
 
+    # Fix dropdown menus in the AODN style
+    file {"${ramadda::builddir}/aodn.patch":
+      ensure => present,
+      source => 'puppet:///modules/ramadda/aodn.patch'
+    } ->
+    exec {'Patch aodnStyle':
+      command => '/usr/bin/patch -p0 < aodn.patch',
+      cwd     => $ramadda::builddir,
+      require => Vcsrepo[$ramadda::builddir],
+      unless  => '/usr/bin/patch --dry-run --reverse -p0 < aodn.patch',
+    } ->
+
     # Build from subversion
     exec {'Build Ramadda':
         command => '/usr/bin/ant',
@@ -51,10 +64,16 @@ class ramadda ($home = '/var/ramadda') {
         require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
         creates => "${ramadda::builddir}/dist/repository.war",
     }
+    #    exec {'Build ldapplugin':
+    #        command => '/usr/bin/ant',
+    #        cwd     => "${ramadda::builddir}/src/org/ramadda/plugins/ldap",
+    #        require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
+    #        creates => "${ramadda::builddir}/dist/plugins/ldapplugin.jar",
+    #    }
 
     tomcat::webapp {'repository':
       war     => "${ramadda::builddir}/dist/repository.war",
-      vhost   => '*',
+      vhost   => $ramadda::vhost,
       require => [Exec['Build Ramadda'],File[$ramadda::home]],
     }
 
@@ -86,6 +105,11 @@ class ramadda ($home = '/var/ramadda') {
       content => template('ramadda/db.properties.erb'),
       notify  => Service['tomcat6'],
     }
+    file {"${ramadda::home}/repository.properties":
+      ensure  => present,
+      content => 'ramadda.html.template.default=aodnStyle',
+      notify  => Service['tomcat6'],
+    }
 
     file {"${ramadda::home}/plugins":
       ensure => directory,
@@ -100,7 +124,7 @@ class ramadda ($home = '/var/ramadda') {
       require => Exec['Build Ramadda'],
     }
     file {"${ramadda::home}/plugins/ldapplugin.jar":
-      source  => "${ramadda::builddir}/dist/plugins/ldapplugin.jar",
+      source  => "${ramadda::builddir}/dist/otherplugins/ldapplugin.jar",
       require => Exec['Build Ramadda'],
     }
     file {"${ramadda::home}/plugins/zzzcdmdataplugin.jar":

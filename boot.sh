@@ -38,6 +38,13 @@ else
     # NCI cloud
     image="centos-6.4-20130920"
     cloud="NCI"
+
+    # Default public IPs
+    if [ "$environment" = 'production' ]; then
+        : ${publicip:='130.56.244.112'}
+    elif [ "$environment" = 'test' ]; then
+        : ${publicip:='130.56.244.113'}
+    fi
 fi
 
 # Misc. stuff for booting
@@ -61,3 +68,5 @@ nova boot \
     --poll \
     $vmname
 
+# Add IP address
+# ==============

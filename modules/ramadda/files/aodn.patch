@@ -1,0 +1,13 @@
+Index: src/org/ramadda/repository/resources/templates/aodnStyle.html
+===================================================================
+--- src/org/ramadda/repository/resources/templates/aodnStyle.html	(revision 3334)
++++ src/org/ramadda/repository/resources/templates/aodnStyle.html	(working copy)
+@@ -84,7 +84,7 @@
+    border : 1px #3c668d solid;
+    background-color : #FFFFFF;
+    position: absolute; 
+-   visibility: hidden; 
++// visibility: hidden; 
+ // z-index: 1;
+ //Shadow effect
+   /* offset left, top, thickness, color with alpha */

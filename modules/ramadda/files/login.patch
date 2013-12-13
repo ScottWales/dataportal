@@ -9,10 +9,11 @@ Index: src/org/ramadda/repository/auth/UserManager.java
 +        User user = null;
  
 -        //User is not in the database
-+        //User is in the database
-         if ( !results.next()) {
+-        if ( !results.next()) {
 -            return null;
 -        }
++        //User is in the database
++        if ( results.next()) {
 +            String storedHash =
 +                results.getString(Tables.USERS.COL_NODOT_PASSWORD);
 +            if ( !Utils.stringDefined(storedHash)) {

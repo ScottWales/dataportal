@@ -34,7 +34,16 @@ node default {
   class {'tomcat':}
 
   # Ramadda will be at http://$fqdn/repository
-  class {'ramadda':}
+  class {'ramadda':
+    vhost => 'climate-cms.nci.org.au',
+  }
+  class {'ramadda::ldap':
+    url             => 'ldap://sfldap0.anu.edu.au:389',
+    user_directory  => 'uid=${id},ou=People,dc=apac,dc=edu,dc=au',
+    group_directory => 'ou=Group,dc=apac,dc=edu,dc=au',
+    group_attribute => 'memberUid',
+    admin_group     => 'fe2_2',
+  }
 
   # Dependencies
   package {'subversion':}
@@ -50,6 +59,19 @@ node default {
 
   # Database
   class {'postgresql::server':
-	postgres_password => 'test',
+    postgres_password => 'test',
 	}
+
+  # NFS mounts
+  file {['/g','/g/data1','/g/data1/ua8']:
+    ensure => directory,
+  }
+  package {'nfs-utils':}
+  mount {'/g/data1/ua8':
+    ensure  => mounted,
+    device  => 'nnfs3.nci.org.au:/mnt/gdata1/ua8',
+    fstype  => 'nfs',
+    options => 'ro,nolock',
+    require => [Package['nfs-utils'],File['/g/data1/ua8']],
+  }
 }

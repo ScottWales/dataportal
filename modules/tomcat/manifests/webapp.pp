@@ -23,6 +23,13 @@ define tomcat::webapp(
   $vhost = '*',
 ) {
 
+  # Where will we redirect http connections to?
+  if ( $vhost != '*' ) {
+    $redirect = $vhost
+  } else {
+    $redirect = $::ec2_public_ipv4
+  }
+
   # Install the war
   file {"${tomcat::home}/webapps/${title}.war":
     source => $war,
@@ -31,7 +38,7 @@ define tomcat::webapp(
 
   # Get apache to forward connections to tomcat
   apache::vhost {"tomcat-${title}":
-    vhost_name      => $vhost,
+    vhost_name      => '*',
     port            => 443,
     ssl             => true,
     docroot         => '/var/www/tomcat',
@@ -45,10 +52,10 @@ define tomcat::webapp(
 
   # Redirect http connections to https
   apache::vhost {"tomcat-redirect-${title}":
-    vhost_name      => $vhost,
+    vhost_name      => '*',
     port            => 80,
     docroot         => '/var/www/tomcat',
     redirect_status => 'permanent',
-    redirect_dest   => "https://${::ec2_public_ipv4}/",
+    redirect_dest   => "https://${redirect}/",
   }
 }
