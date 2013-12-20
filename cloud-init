@@ -8,10 +8,17 @@ disable_root_opts: no-port-forwarding,no-agent-forwarding,no-X11-forwarding,comm
 bootcmd:
     - service sshd stop
 
-# Make sure rsync is available & set up SSH
+# This should all be added to a openstack image
+#  - Disable 'requiretty' in the sudo config - vagrant wants to run sudo over
+#    ssh, and there's no way to add the '-t' flag
+#  - Make sure ec2-user has sudo access, cause no-one should ever log on as root
+#  - Install puppet & rsync
+#  - Restart ssh
 runcmd:
     - sed -i -e 's/^Defaults\s\+requiretty/# \0/' /etc/sudoers
     - echo "ec2-user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ec2-user
     - rpm -i http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-7.noarch.rpm
     - yum install --assumeyes --quiet rsync puppet
     - service sshd start
+
+# From here on all config will be done by puppet
