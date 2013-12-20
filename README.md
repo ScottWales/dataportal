@@ -14,7 +14,8 @@ Starting the VM
 The data portal is configured using Vagrant and Puppet - Vagrant boots the
 virtual machine and Puppet configures it.
 
-You will need Vagrant installed on your local machine, e.g.
+You will need Vagrant installed on your local machine (make sure its version
+1.1 or later), e.g.
 
     apt-get install vagrant
 
