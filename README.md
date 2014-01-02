@@ -30,6 +30,12 @@ this directory run
 
 The machine will be booted on the cloud and Puppet will begin to configure it.
 
+In some instances Puppet may not be installed in time to begin the provisioning - if this happens run
+
+    vagrant provision
+
+to redo the configuration
+
 When the configuration is finished point a webbroser at the public IP address
 of the VM to finish configuring Ramadda.
 
