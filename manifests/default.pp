@@ -46,9 +46,7 @@ node default {
   }
 
   # Dependencies
-  package {'subversion':}
-  package {'ant':}
-  package {'patch':} -> Class['ramadda']
+  package{'wget':}
 
   # Floating IPs
   host {'production':
@@ -68,11 +66,11 @@ node default {
     ensure => directory,
   }
   package {'nfs-utils':}
-  mount {'/g/data1/ua8':
-    ensure  => mounted,
-    device  => 'nnfs3.nci.org.au:/mnt/gdata1/ua8',
-    fstype  => 'nfs',
-    options => 'ro,nolock',
-    require => [Package['nfs-utils'],File['/g/data1/ua8']],
-  }
+  #mount {'/g/data1/ua8':
+  #  ensure  => mounted,
+  #  device  => 'nnfs3.nci.org.au:/mnt/gdata1/ua8',
+  #  fstype  => 'nfs',
+  #  options => 'ro,nolock',
+  #  require => [Package['nfs-utils'],File['/g/data1/ua8']],
+  #}
 }
