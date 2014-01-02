@@ -19,14 +19,20 @@ You will need Vagrant installed on your local machine (make sure its version
 
     apt-get install vagrant
 
-Additionally you will need the Vagrant Openstack plugin
+To boot a local VM using Virtualbox run from this directory:
+
+    vagrant up --provision
+
+You can then access Ramadda by pointing a webbrowser to https://localhost:7443
+
+To run on the cloud you will need the Vagrant Openstack plugin:
 
     vagrant plugin install vagrant-openstack-plugin
 
 Make sure your openstack credentials are loaded (e.g. $OS\_USERNAME), then from
-this directory run
+this directory run:
 
-    vagrant up --provider=openstack
+    vagrant up --provision --provider=openstack
 
 The machine will be booted on the cloud and Puppet will begin to configure it.
 
@@ -36,7 +42,7 @@ In some instances Puppet may not be installed in time to begin the provisioning 
 
 to redo the configuration
 
-When the configuration is finished point a webbroser at the public IP address
+When the configuration is finished point a webbrowser at the public IP address
 of the VM to finish configuring Ramadda.
 
 If needed you can SSH to the server by running
