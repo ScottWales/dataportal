@@ -14,67 +14,25 @@
 
 # Install Ramadda
 
-class ramadda ($home  = '/var/ramadda',
-               $vhost = '*') {
+class ramadda  ($home  = '/var/ramadda',
+                $vhost = '*') {
     include tomcat
 
-    $builddir = '/tmp/ramadda'
-    
     File {
       owner => 'tomcat',
     }
 
-    vcsrepo {$ramadda::builddir:
-        ensure   => present,
-        source   => 'svn://svn.code.sf.net/p/ramadda/code',
-        revision => '3334',
-        provider => svn,
-        require  => Package['subversion'],
+    exec {'wget repository.war':
+      command => 'wget https://github.com/ScottWales/ramadda/releases/download/portal-v1.5.1/repository.war -O /tmp/repository.war',
+      path    => '/usr/bin',
+      creates => '/tmp/repository.war',
+      require => Package['wget'],
     }
-
-    # Apply patches
-    # Fix bug in login code that blocks the LDAP plugin from working
-    file {"${ramadda::builddir}/login.patch":
-      ensure => present,
-      source => 'puppet:///modules/ramadda/login.patch'
-    } ->
-    exec {'Patch login':
-      command => '/usr/bin/patch -p0 < login.patch',
-      cwd     => $ramadda::builddir,
-      require => Vcsrepo[$ramadda::builddir],
-      unless  => '/usr/bin/patch --dry-run --reverse -p0 < login.patch',
-    } ->
-
-    # Fix dropdown menus in the AODN style
-    file {"${ramadda::builddir}/aodn.patch":
-      ensure => present,
-      source => 'puppet:///modules/ramadda/aodn.patch'
-    } ->
-    exec {'Patch aodnStyle':
-      command => '/usr/bin/patch -p0 < aodn.patch',
-      cwd     => $ramadda::builddir,
-      require => Vcsrepo[$ramadda::builddir],
-      unless  => '/usr/bin/patch --dry-run --reverse -p0 < aodn.patch',
-    } ->
-
-    # Build from subversion
-    exec {'Build Ramadda':
-        command => '/usr/bin/ant',
-        cwd     => $ramadda::builddir,
-        require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
-        creates => "${ramadda::builddir}/dist/repository.war",
-    }
-    #    exec {'Build ldapplugin':
-    #        command => '/usr/bin/ant',
-    #        cwd     => "${ramadda::builddir}/src/org/ramadda/plugins/ldap",
-    #        require => [Vcsrepo['/tmp/ramadda'],Package['ant']],
-    #        creates => "${ramadda::builddir}/dist/plugins/ldapplugin.jar",
-    #    }
 
     tomcat::webapp {'repository':
-      war     => "${ramadda::builddir}/dist/repository.war",
+      war     => '/tmp/repository.war',
       vhost   => $ramadda::vhost,
-      require => [Exec['Build Ramadda'],File[$ramadda::home]],
+      require => [Exec['wget repository.war'],File[$ramadda::home]],
     }
 
     file {$ramadda::home:
@@ -110,26 +68,4 @@ class ramadda ($home  = '/var/ramadda',
       content => 'ramadda.html.template.default=aodnStyle',
       notify  => Service['tomcat6'],
     }
-
-    file {"${ramadda::home}/plugins":
-      ensure => directory,
-    }
-
-    file {"${ramadda::home}/plugins/userguideplugin.jar":
-      source  => "${ramadda::builddir}/dist/plugins/userguideplugin.jar",
-      require => Exec['Build Ramadda'],
-    }
-    file {"${ramadda::home}/plugins/threddsplugin.jar":
-      source  => "${ramadda::builddir}/dist/plugins/threddsplugin.jar",
-      require => Exec['Build Ramadda'],
-    }
-    file {"${ramadda::home}/plugins/ldapplugin.jar":
-      source  => "${ramadda::builddir}/dist/otherplugins/ldapplugin.jar",
-      require => Exec['Build Ramadda'],
-    }
-    file {"${ramadda::home}/plugins/zzzcdmdataplugin.jar":
-      source  => "${ramadda::builddir}/dist/plugins/zzzcdmdataplugin.jar",
-      require => Exec['Build Ramadda'],
-    }
-
 }
