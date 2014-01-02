@@ -5,8 +5,13 @@ require 'vagrant-openstack-plugin'
 Vagrant.configure("2") do | config |
     config.vm.box = "centos-6.4"
 
+    # Set the Vagrant name
+    config.vm.define :DataPortal do |portal|
+    end
+
     config.vm.provision :puppet do |puppet|
         puppet.module_path = "modules"
+        puppet.hiera_config_path = "hiera.yaml"
     end
 
     # Forward HTTP (not used with openstack)
@@ -39,14 +44,14 @@ Vagrant.configure("2") do | config |
 
         # Specifics for the NeCTAR cloud
         if os.endpoint =~ /nectar.org.au/ then
-            os.image           = /NeCTAR CentOS 6\.4 x86_64 - with rsync/i
+            os.image       = /NeCTAR CentOS 6\.4 x86_64 - with rsync/i
         end
 
         # Specifics for the NCI cloud
         if os.endpoint =~ /130.56.241.100/ then
-            os.image           = /centos 6.4/
-            os.region          = "#{ENV['OS_REGION_NAME']}"
-            os.floating_ip     = "130.56.244.115"
+            os.image       = /centos 6.4/
+            os.region      = "#{ENV['OS_REGION_NAME']}"
+            os.floating_ip = "130.56.244.115"
         end
 
         # Read the user data
