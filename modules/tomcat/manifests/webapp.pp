@@ -32,8 +32,14 @@ define tomcat::webapp(
 
   # Install the war
   file {"${tomcat::home}/webapps/${title}.war":
-    source => $war,
-    notify => Service['tomcat6'],
+    source  => $war,
+    notify  => Service['tomcat6'],
+    require => Package['tomcat6'],
+  }
+
+  # Reset default owner
+  File {
+    owner => 'root',
   }
 
   # Get apache to forward connections to tomcat
