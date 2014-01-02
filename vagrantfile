@@ -9,6 +9,10 @@ Vagrant.configure("2") do | config |
         puppet.module_path = "modules"
     end
 
+    # Forward HTTP (not used with openstack)
+    config.vm.network "forwarded_port", guest: 80, host:7080
+    config.vm.network "forwarded_port", guest:443, host:7443
+
     # Use the Puppetlabs test VM for local instances
     config.vm.provider :virtualbox do |vb, override|
         override.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
