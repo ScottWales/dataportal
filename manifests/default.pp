@@ -20,6 +20,11 @@ node default {
   include ec2user
   include epel
 
+  mailalias {'forward root mail':
+    name      => 'root',
+    recipient => 'scott.wales@unimelb.edu.au',
+  }
+
   # Firewall defaults
   Firewall {
     before  => Class['security::firewall_post'],
@@ -54,24 +59,16 @@ node default {
   # Dependencies
   package{'wget':}
 
-  # Floating IPs
-  host {'production':
-    ip => '130.56.244.112',
-  }
-  host {'test':
-    ip => '130.56.244.113',
-  }
-
   # Database
   class {'postgresql::server':
     postgres_password => 'test',
-	}
+  }
 
   if $::openstack_meta_site == 'NCI' {
-  # NFS mounts
-  file {['/g','/g/data1','/g/data1/ua8']:
-    ensure => directory,
-  }
+    # NFS mounts
+    file {['/g','/g/data1','/g/data1/ua8']:
+      ensure => directory,
+    }
     package {'nfs-utils':}
     mount {'/g/data1/ua8':
       ensure  => mounted,
