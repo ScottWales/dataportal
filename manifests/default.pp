@@ -22,8 +22,8 @@ node default {
 
   # Firewall defaults
   Firewall {
-    before => Class['security::firewall_post'],
-    require  => Class['security::firewall_pre'],
+    before  => Class['security::firewall_post'],
+    require => Class['security::firewall_pre'],
   }
 
   class {'monitoring':
@@ -39,16 +39,16 @@ node default {
   class {'tomcat':}
 
   # Ramadda will be at http://$fqdn/repository
-  #  class {'ramadda':
-  #    vhost => 'climate-cms.nci.org.au',
-  #  }
-  #  class {'ramadda::ldap':
-  #    url             => 'ldap://sfldap0.anu.edu.au:389',
-  #    user_directory  => 'uid=${id},ou=People,dc=apac,dc=edu,dc=au',
-  #    group_directory => 'ou=Group,dc=apac,dc=edu,dc=au',
-  #    group_attribute => 'memberUid',
-  #    admin_group     => 'fe2_2',
-  #  }
+  class {'ramadda':
+    vhost => 'climate-cms.nci.org.au',
+  }
+  class {'ramadda::ldap':
+    url             => 'ldap://sfldap0.anu.edu.au:389',
+    user_directory  => 'uid=${id},ou=People,dc=apac,dc=edu,dc=au',
+    group_directory => 'ou=Group,dc=apac,dc=edu,dc=au',
+    group_attribute => 'memberUid',
+    admin_group     => 'fe2_2',
+  }
 
   # Dependencies
   package{'wget':}
