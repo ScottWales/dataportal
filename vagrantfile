@@ -50,6 +50,7 @@ Vagrant.configure("2") do | config |
         # Specifics for the NeCTAR cloud
         if os.endpoint =~ /nectar.org.au/ then
             os.image       = /NeCTAR CentOS 6\.4 x86_64 - with rsync/i
+            site           = "nectar"
         end
 
         # Specifics for the NCI cloud
@@ -57,10 +58,12 @@ Vagrant.configure("2") do | config |
             os.image       = /centos-6.4/
             os.region      = "#{ENV['OS_REGION_NAME']}"
             os.floating_ip = "130.56.244.115"
+            site           = "NCI"
         end
 
         # Read the user data
         os.user_data       = File.open('cloud-init','r') {|f| f.read}
+        os.metadata        = {"site" => site}
     end
 end
     

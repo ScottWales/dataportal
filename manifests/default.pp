@@ -33,6 +33,7 @@ node default {
   # Bare-bones apache install
   class {'apache':
     default_vhost => false,
+    default_mods  => false,
   }
 
   # Tomcat will be the default apache vhost
@@ -66,16 +67,18 @@ node default {
     postgres_password => 'test',
 	}
 
+  if $::openstack_meta_site == 'NCI' {
   # NFS mounts
   file {['/g','/g/data1','/g/data1/ua8']:
     ensure => directory,
   }
-  package {'nfs-utils':}
-  #mount {'/g/data1/ua8':
-  #  ensure  => mounted,
-  #  device  => 'nnfs3.nci.org.au:/mnt/gdata1/ua8',
-  #  fstype  => 'nfs',
-  #  options => 'ro,nolock',
-  #  require => [Package['nfs-utils'],File['/g/data1/ua8']],
-  #}
+    package {'nfs-utils':}
+    mount {'/g/data1/ua8':
+      ensure  => mounted,
+      device  => 'nnfs3.nci.org.au:/mnt/gdata1/ua8',
+      fstype  => 'nfs',
+      options => 'ro,nolock',
+      require => [Package['nfs-utils'],File['/g/data1/ua8']],
+    }
+  }
 }
