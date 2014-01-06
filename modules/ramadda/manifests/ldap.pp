@@ -38,5 +38,13 @@ class ramadda::ldap (
     content => template('ramadda/ldap.properties.erb'),
     notify  => Service[$tomcat::service],
   }
+
+  exec {'wget ldapplugin.jar':
+    command => "wget http://downloads.sourceforge.net/project/ramadda/ramadda1.5/plugins/ldapplugin.jar -O ${ramadda::plugins}/ldapplugin.jar",
+    path    => '/usr/bin',
+    require => File["${ramadda::plugins}"],
+    creates => "${ramadda::plugins}/ldapplugin.jar",
+    notify  => Service["${tomcat::service}"],
+  }
 }
 

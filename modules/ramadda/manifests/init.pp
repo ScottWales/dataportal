@@ -17,6 +17,7 @@
 class ramadda  ($home  = '/var/ramadda',
                 $vhost = '*') {
     include tomcat
+    $plugins = "${home}/plugins"
 
     File {
       owner => 'tomcat',
@@ -36,6 +37,9 @@ class ramadda  ($home  = '/var/ramadda',
     }
 
     file {$ramadda::home:
+      ensure => directory,
+    }
+    file {$ramadda::plugins:
       ensure => directory,
     }
 
