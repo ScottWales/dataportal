@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'vagrant-openstack-plugin'
+require 'socket'
 
 Vagrant.configure("2") do | config |
     config.vm.box = "centos-6.4"
@@ -40,8 +41,11 @@ Vagrant.configure("2") do | config |
         os.tenant          = "#{ENV['OS_TENANT_NAME']}"
 
         os.flavor          = /m1.small/
-        os.keypair_name    = "walesnix"
         os.security_groups = ["ssh","http"]
+
+        # Use hostname for the key (note that Ubuntu doesn't export the
+        # environemnet variable $HOSTNAME by default so we use a library)
+        os.keypair_name    = Socket.gethostname
 
         # Specifics for the NeCTAR cloud
         if os.endpoint =~ /nectar.org.au/ then
