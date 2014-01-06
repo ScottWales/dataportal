@@ -15,8 +15,9 @@ Vagrant.configure("2") do | config |
     end
 
     # Forward HTTP (not used with openstack)
-    config.vm.network "forwarded_port", guest: 80, host:7080
-    config.vm.network "forwarded_port", guest:443, host:7443
+    config.vm.network "forwarded_port", guest:  80, host:7080
+    config.vm.network "forwarded_port", guest: 443, host:7443
+    config.vm.network "forwarded_port", guest:5666, host:5666
 
     # Use the Puppetlabs test VM for local instances
     config.vm.provider :virtualbox do |vb, override|

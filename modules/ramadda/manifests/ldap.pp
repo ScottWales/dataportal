@@ -22,7 +22,7 @@ class ramadda::ldap (
   $group_directory = 'ou=Group,dc=example,dc=com',
   $group_attribute = 'gid',
   $admin_group     = 'admin',
-  $givenname_attr  = 'givenName',
+  $givenname_attr  = 'cn',
   $surname_attr    = 'surname',
 )
 {
