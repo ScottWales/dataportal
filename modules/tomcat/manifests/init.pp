@@ -14,15 +14,17 @@
 
 class tomcat ($vhost_name = '*') {
   require java
+  include apache::mod::proxy
+  include apache::mod::proxy_ajp
 
   $home = '/usr/share/tomcat6'
   $user = 'tomcat'
   $service = 'tomcat6'
-  
+
   # Manually set tomcat's UID and GID so that it can see the NFS mount
   group {'ua8':
     ensure => present,
-    gid => 5972,
+    gid    => 5972,
   }
   group {'tomcat':
     ensure => present,
@@ -43,6 +45,4 @@ class tomcat ($vhost_name = '*') {
     require => Package['tomcat6'],
   }
 
-  # Required for the webapp vhosts
-  apache::mod{'proxy_ajp':}
 }
