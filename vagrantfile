@@ -3,12 +3,10 @@
 require 'vagrant-openstack-plugin'
 require 'socket'
 
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'openstack'
+
 Vagrant.configure("2") do | config |
     config.vm.box = "centos-6.4"
-
-    # Set the Vagrant name
-    config.vm.define :DataPortal do |portal|
-    end
 
     config.vm.provision :puppet do |puppet|
         puppet.module_path = "modules"
