@@ -1,0 +1,21 @@
+# Ramadda server
+---
+classes:
+    - apache
+    - tomcat
+    - ramadda
+    - ramadda::ldap
+    - postgresql::server
+
+# Ramadda parameters
+ramadda::vhost: 'climate-cms.nci.org.au'
+ramadda::ldap::url: '%{hiera("ldap::url")}'
+ramadda::ldap::user_directory: 'uid=${id},ou=People,%{hiera("ldap::dc")}'
+ramadda::ldap::group_directory: 'ou=Group,%{hiera("ldap::dc")}'
+ramadda::ldap::admin_group: 'fe2_2'
+
+postgresql::server::postgres_password: 'TODO: change me'
+
+# Data to be mounted
+gdata-mounts:
+    - ua8

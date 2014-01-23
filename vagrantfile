@@ -7,11 +7,13 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'openstack'
 
 Vagrant.configure("2") do | config |
     config.vm.box = "centos-6.4"
+    config.vm.hostname = "climate-cms.nci.org.au"
 
     config.vm.provision :puppet do |puppet|
         puppet.module_path = "modules"
         puppet.hiera_config_path = "hiera.yaml"
     end
+    config.vm.synced_folder "hiera", "/var/lib/hiera"
 
     # Forward HTTP (not used with openstack)
     config.vm.network "forwarded_port", guest:  80, host:7080
