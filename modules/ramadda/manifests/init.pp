@@ -14,8 +14,11 @@
 
 # Install Ramadda
 
-class ramadda  ($home  = '/var/ramadda',
-                $vhost = '*') {
+class ramadda  (
+  $home  = '/var/ramadda',
+  $vhost = '*',
+  $postgres_password = undef,
+) {
     include tomcat
     $plugins = "${home}/plugins"
 
@@ -54,11 +57,10 @@ class ramadda  ($home  = '/var/ramadda',
     # Setup postgres
     $postgres_db = 'ramadda'
     $postgres_user = 'ramadda'
-    $postgres_passwd = 'TODO:changeme'
 
     postgresql::server::db {$postgres_db:
       user     => $postgres_user,
-      password => postgresql_password($postgres_user,$postgres_passwd),
+      password => postgresql_password($postgres_user,$postgres_password),
     }
 
     file {"${ramadda::home}/db.properties":

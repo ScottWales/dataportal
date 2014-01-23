@@ -15,6 +15,7 @@ ramadda::ldap::group_directory: 'ou=Group,%{hiera("ldap::dc")}'
 ramadda::ldap::admin_group: 'fe2_2'
 
 postgresql::server::postgres_password: 'TODO: change me'
+ramadda::postgres_password: 'TODO: change me'
 
 # Data to be mounted
 gdata-mounts:
