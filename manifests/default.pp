@@ -16,10 +16,6 @@
 hiera_include('classes')
 
 node default {
-  #  $heira_classes = hiera_array('classes')
-  #  class {$heira_classes:}
-  include nci
-
   $yum_packages = hiera_array('packages',[])
   if size($yum_packages) > 0 {
     package {$yum_packages:}
@@ -37,55 +33,4 @@ node default {
       nci::gdata {$gdata_mounts:}
     }
   }
-
-  #  include ssh
-  #  include security
-  #  include sudo
-  #  include ec2user
-  #  include epel
-  #
-  #  mailalias {'forward root mail':
-  #    name      => 'root',
-  #    recipient => 'scott.wales@unimelb.edu.au',
-  #  }
-  #
-  #  # Firewall defaults
-  #  Firewall {
-  #    before  => Class['security::firewall_post'],
-  #    require => Class['security::firewall_pre'],
-  #  }
-  #
-  #  class {'monitoring':
-  #    monitor_ip => '128.250.120.34'
-  #  }
-  #
-  #  # Bare-bones apache install
-  #  class {'apache':
-  #    default_vhost => false,
-  #    default_mods  => false,
-  #  }
-  #
-  #  # Tomcat will be the default apache vhost
-  #  class {'tomcat':}
-  #
-  #  # Ramadda will be at http://$fqdn/repository
-  #  class {'ramadda':
-  #    vhost => 'climate-cms.nci.org.au',
-  #  }
-  #  class {'ramadda::ldap':
-  #    url             => 'ldap://sfldap0.anu.edu.au:389',
-  #    user_directory  => 'uid=${id},ou=People,dc=apac,dc=edu,dc=au',
-  #    group_directory => 'ou=Group,dc=apac,dc=edu,dc=au',
-  #    group_attribute => 'memberUid',
-  #    admin_group     => 'fe2_2',
-  #  }
-  #
-  #  # Dependencies
-  #  package{'wget':}
-  #
-  #  # Database
-  #  class {'postgresql::server':
-  #    postgres_password => 'test',
-  #  }
-  #
-  }
+}

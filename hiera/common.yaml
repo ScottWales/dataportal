@@ -11,9 +11,6 @@ packages:
 apache::default_vhost: false
 apache::default_mods: false
 
-# Don't add mounts by default
-gdata-mounts: []
-
 # LDAP settings
 ldap::protocol: 'ldap'
 ldap::host: 'example.com'
