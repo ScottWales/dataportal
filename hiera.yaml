@@ -2,6 +2,6 @@
 :yaml:
     :datadir: /var/lib/hiera
 :hierarchy:
-    - ramadda
-    - '%{::openstack_meta_site}'
+    - role/ramadda
+    - site/%{::openstack_meta_site}
     - common
