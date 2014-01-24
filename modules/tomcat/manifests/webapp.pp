@@ -20,48 +20,13 @@
 
 define tomcat::webapp(
   $war,
-  $vhost = '*',
 ) {
-
-  # Where will we redirect http connections to?
-  if ( $vhost != '*' ) {
-    $redirect = $vhost
-  } else {
-    $redirect = $::ec2_public_ipv4
-  }
 
   # Install the war
   file {"${tomcat::home}/webapps/${title}.war":
+    owner   => $tomcat::user,
     source  => $war,
-    notify  => Service['tomcat6'],
-    require => Package['tomcat6'],
-  }
-
-  # Reset default owner
-  File {
-    owner => 'root',
-  }
-
-  # Get apache to forward connections to tomcat
-  apache::vhost {"tomcat-${title}":
-    vhost_name      => '*',
-    port            => 443,
-    ssl             => true,
-    docroot         => '/var/www/tomcat',
-    proxy_pass      => [{
-      'path' => "/${title}",
-      'url'  => "ajp://localhost:8009/${title}"
-    }],
-    # Redirect the base URL to the war directory
-    custom_fragment => "RedirectMatch 302 ^/$ /${title}",
-  }
-
-  # Redirect http connections to https
-  apache::vhost {"tomcat-redirect-${title}":
-    vhost_name      => '*',
-    port            => 80,
-    docroot         => '/var/www/tomcat',
-    redirect_status => 'permanent',
-    redirect_dest   => "https://${redirect}/",
+    notify  => Service['tomcat'],
+    require => Package['tomcat'],
   }
 }

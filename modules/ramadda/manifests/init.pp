@@ -16,7 +16,6 @@
 
 class ramadda  (
   $home  = '/var/ramadda',
-  $vhost = '*',
   $postgres_password = undef,
 ) {
     include tomcat
@@ -35,7 +34,6 @@ class ramadda  (
 
     tomcat::webapp {'repository':
       war     => '/tmp/repository.war',
-      vhost   => $ramadda::vhost,
       require => [Exec['wget repository.war'],File[$ramadda::home]],
     }
 
@@ -48,10 +46,10 @@ class ramadda  (
 
     # Configuration
     file {"${tomcat::home}/conf/repository.properties":
-        ensure  => present,
+        ensure  => file,
         content => "ramadda_home=${ramadda::home}",
-        require => Package['tomcat6'],
-        notify  => Service['tomcat6'],
+        require => Package['tomcat'],
+        notify  => Service['tomcat'],
     }
 
     # Setup postgres
@@ -64,14 +62,14 @@ class ramadda  (
     }
 
     file {"${ramadda::home}/db.properties":
-      ensure  => present,
+      ensure  => file,
       mode    => '0500',
       content => template('ramadda/db.properties.erb'),
-      notify  => Service['tomcat6'],
+      notify  => Service['tomcat'],
     }
     file {"${ramadda::home}/repository.properties":
-      ensure  => present,
+      ensure  => file,
       content => 'ramadda.html.template.default=aodnStyle',
-      notify  => Service['tomcat6'],
+      notify  => Service['tomcat'],
     }
 }

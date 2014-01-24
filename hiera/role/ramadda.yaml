@@ -1,14 +1,12 @@
 # Ramadda server
 ---
 classes:
-    - apache
     - tomcat
     - ramadda
     - ramadda::ldap
     - postgresql::server
 
 # Ramadda parameters
-ramadda::vhost: 'climate-cms.nci.org.au'
 ramadda::ldap::url: '%{hiera("ldap::url")}'
 ramadda::ldap::user_directory: 'uid=${id},ou=People,%{hiera("ldap::dc")}'
 ramadda::ldap::group_directory: 'ou=Group,%{hiera("ldap::dc")}'
