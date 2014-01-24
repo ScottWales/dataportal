@@ -1,0 +1,13 @@
+# Jenkins build server
+---
+classes:
+    - jenkins
+
+jenkins::install_java: false
+jenkins::configure_firewall: false
+
+jenkins::config_hash:
+    JENKINS_PORT:
+        value: 8088
+    JENKINS_AJP_PORT:
+        value: -1

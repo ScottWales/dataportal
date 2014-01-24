@@ -34,3 +34,6 @@
 [submodule "modules/postgresql"]
 	path = modules/postgresql
 	url = https://github.com/puppetlabs/puppetlabs-postgresql
+[submodule "modules/jenkins"]
+	path = modules/jenkins
+	url = https://github.com/jenkinsci/puppet-jenkins
