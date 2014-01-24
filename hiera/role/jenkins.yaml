@@ -11,3 +11,5 @@ jenkins::config_hash:
         value: 8088
     JENKINS_AJP_PORT:
         value: -1
+    JENKINS_ARGS:
+        value: '--prefix=/jenkins'
