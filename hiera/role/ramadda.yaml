@@ -18,3 +18,8 @@ ramadda::postgres_password: 'TODO: change me'
 # Data to be mounted
 gdata-mounts:
     - ua8
+
+nginx::nginx_locations:
+    '/repository':
+        vhost: '%{::fqdn}'
+        proxy: 'http://localhost:8080/repository'

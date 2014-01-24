@@ -37,3 +37,6 @@
 [submodule "modules/jenkins"]
 	path = modules/jenkins
 	url = https://github.com/jenkinsci/puppet-jenkins
+[submodule "modules/nginx"]
+	path = modules/nginx
+	url = https://github.com/jfryman/puppet-nginx

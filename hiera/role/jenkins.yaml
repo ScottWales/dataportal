@@ -2,14 +2,21 @@
 ---
 classes:
     - jenkins
+    - nginx
 
 jenkins::install_java: false
 jenkins::configure_firewall: false
+jenkins::http_port: '8088'
 
 jenkins::config_hash:
     JENKINS_PORT:
-        value: 8088
+        value: %{hiera("jenkins::http_port")}
     JENKINS_AJP_PORT:
         value: -1
     JENKINS_ARGS:
         value: '--prefix=/jenkins'
+
+nginx::nginx_locations:
+    '/jenkins':
+        vhost: '%{::fqdn}'
+        proxy: 'http://localhost:%{hiera("jenkins::http_port")}/jenkins/'
