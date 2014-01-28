@@ -5,6 +5,8 @@ classes:
     - nginx
 packages:
     - git
+ruby-packages:
+    - puppet-lint
 
 jenkins::install_java: false
 jenkins::configure_firewall: false
