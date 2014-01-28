@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby
+
+require 'vagrant-openstack-plugin'
+require 'socket'
+
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'openstack'
+
+Vagrant.configure("2") do | config |
+    config.vm.box = "centos-6.4"
+    config.vm.hostname = "climate-cms.nci.org.au"
+
+    config.vm.provision :puppet do |puppet|
+        puppet.module_path = "modules"
+        puppet.hiera_config_path = "hiera.yaml"
+    end
+    config.vm.synced_folder "hiera", "/var/lib/hiera"
+
+    # Forward HTTP (not used with openstack)
+    config.vm.network "forwarded_port", guest:  80, host:7080
+    config.vm.network "forwarded_port", guest: 443, host:7443
+    config.vm.network "forwarded_port", guest:5666, host:5666
+
+    # Use the Puppetlabs test VM for local instances
+    config.vm.provider :virtualbox do |vb, override|
+        override.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
+    end
+
+    # Configuration for openstack
+    config.vm.provider :openstack do |os, override|
+        # Openstack ssh settings
+        override.ssh.username         = "ec2-user"
+        override.ssh.private_key_path = "~/.ssh/id_rsa"
+
+        # The box is an empty dummy, an openstack image is used instead
+        override.vm.box     = "openstack-dummy"
+        override.vm.box_url = "https://github.com/cloudbau/vagrant-openstack-plugin/raw/master/dummy.box"
+
+        os.endpoint        = "#{ENV['OS_AUTH_URL']}/tokens"
+        os.username        = "#{ENV['OS_USERNAME']}"
+        os.api_key         = "#{ENV['OS_PASSWORD']}"
+        os.tenant          = "#{ENV['OS_TENANT_NAME']}"
+
+        os.flavor          = /m1.small/
+        os.security_groups = ["ssh","http"]
+
+        # Use hostname for the key (note that Ubuntu doesn't export the
+        # environemnet variable $HOSTNAME by default so we use a library)
+        os.keypair_name    = Socket.gethostname
+
+        # Specifics for the NeCTAR cloud
+        if os.endpoint =~ /nectar.org.au/ then
+            os.image       = /NeCTAR CentOS 6\.4 x86_64 - with rsync/i
+            site           = "nectar"
+        end
+
+        # Specifics for the NCI cloud
+        if os.endpoint =~ /130.56.241.100/ then
+            os.image       = /centos-6.4/
+            os.region      = "#{ENV['OS_REGION_NAME']}"
+            os.floating_ip = "130.56.244.115"
+            site           = "NCI"
+        end
+
+        # Read the user data
+        os.user_data       = File.open('cloud-init','r') {|f| f.read}
+        os.metadata        = {"site" => site}
+    end
+end
+    

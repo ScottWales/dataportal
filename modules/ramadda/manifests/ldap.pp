@@ -22,7 +22,7 @@ class ramadda::ldap (
   $group_directory = 'ou=Group,dc=example,dc=com',
   $group_attribute = 'gid',
   $admin_group     = 'admin',
-  $givenname_attr  = 'givenName',
+  $givenname_attr  = 'cn',
   $surname_attr    = 'surname',
 )
 {
@@ -37,6 +37,14 @@ class ramadda::ldap (
     ensure  => present,
     content => template('ramadda/ldap.properties.erb'),
     notify  => Service[$tomcat::service],
+  }
+
+  exec {'wget ldapplugin.jar':
+    command => "wget http://downloads.sourceforge.net/project/ramadda/ramadda1.5/plugins/ldapplugin.jar -O ${ramadda::plugins}/ldapplugin.jar",
+    path    => '/usr/bin',
+    require => File["${ramadda::plugins}"],
+    creates => "${ramadda::plugins}/ldapplugin.jar",
+    notify  => Service["${tomcat::service}"],
   }
 }
 

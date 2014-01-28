@@ -1,0 +1,6 @@
+# Ipython server
+---
+classes:
+    - python
+python-packages:
+    - ipython

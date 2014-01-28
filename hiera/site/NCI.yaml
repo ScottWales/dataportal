@@ -1,0 +1,9 @@
+# NCI Site
+---
+classes:
+    - nci
+packages:
+    - nfs-utils
+
+ldap::host: 'sfldap0.anu.edu.au'
+ldap::dc: 'dc=apac,dc=edu,dc=au'

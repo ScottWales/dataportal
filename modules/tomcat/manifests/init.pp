@@ -12,17 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class tomcat ($vhost_name = '*') {
+class tomcat (
+  $http_port = '8080'
+) {
   require java
 
   $home = '/usr/share/tomcat6'
   $user = 'tomcat'
+
+  $package = 'tomcat6'
   $service = 'tomcat6'
-  
+
   # Manually set tomcat's UID and GID so that it can see the NFS mount
   group {'ua8':
     ensure => present,
-    gid => 5972,
+    gid    => 5972,
   }
   group {'tomcat':
     ensure => present,
@@ -34,15 +38,17 @@ class tomcat ($vhost_name = '*') {
     system  => true,
     groups  => 'tomcat',
     require => Group['ua8','tomcat'],
+    before  => Package['tomcat'],
   }
 
-  package {'tomcat6':}
+  package {'tomcat':
+    name => $tomcat::package,
+  }
 
-  service {$service:
+  service {'tomcat':
     ensure  => running,
-    require => Package['tomcat6'],
+    name    => $tomcat::service,
+    require => Package['tomcat'],
   }
 
-  # Required for the webapp vhosts
-  apache::mod{'proxy_ajp':}
 }

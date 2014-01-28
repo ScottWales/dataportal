@@ -1,0 +1,23 @@
+# Common stuff
+---
+classes:
+    - security
+    - ec2user
+    - sudo
+packages:
+    - wget
+
+# Bare-bones apache settings
+apache::default_vhost: false
+apache::default_mods: false
+
+# LDAP settings
+ldap::protocol: 'ldap'
+ldap::host: 'example.com'
+ldap::port: '389'
+ldap::dc: 'dc=example,dc=com'
+ldap::url: '%{hiera("ldap::protocol")}://%{hiera("ldap::host")}:%{hiera("ldap::port")}'
+
+nginx::nginx_vhosts:
+    '%{::fqdn}': 
+        www_root: '/var/www'

@@ -1,8 +1,8 @@
-## \file    modules/tomcat/manifests/webapp.pp
+## \file    modules/nci/init.pp
 #  \author  Scott Wales <scott.wales@unimelb.edu.au>
 #  \brief
 #
-#  Copyright 2013 Scott Wales
+#  Copyright 2014 Scott Wales
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -16,17 +16,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-# Install a war file & setup an apache vhost for it
+# Specific stuff for NCI
 
-define tomcat::webapp(
-  $war,
-) {
-
-  # Install the war
-  file {"${tomcat::home}/webapps/${title}.war":
-    owner   => $tomcat::user,
-    source  => $war,
-    notify  => Service['tomcat'],
-    require => Package['tomcat'],
+class nci {
+  file {['/g','/g/data1']:
+    ensure => directory,
   }
 }

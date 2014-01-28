@@ -1,0 +1,8 @@
+---
+:yaml:
+    :datadir: /var/lib/hiera
+:hierarchy:
+    - role/ramadda
+    - role/jenkins
+    - site/%{::openstack_meta_site}
+    - common
