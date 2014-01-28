@@ -3,6 +3,8 @@
 classes:
     - jenkins
     - nginx
+packages:
+    - git
 
 jenkins::install_java: false
 jenkins::configure_firewall: false
@@ -29,3 +31,10 @@ proxy:
     '/jenkins':
         vhost: '%{::fqdn}'
         proxy: 'http://localhost:%{hiera("jenkins::http_port")}/jenkins'
+        ssl: true
+        ssl_only: true
+        location_cfg_append:
+            proxy_set_header Host: '$host'
+            proxy_set_header X-Real-IP: '$remote_addr'
+            proxy_set_header X-Forwarded-For: '$proxy_add_x_forwarded_for'
+            proxy_redirect: 'http:// https://'
