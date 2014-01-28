@@ -12,14 +12,24 @@ ramadda::ldap::user_directory: 'uid=${id},ou=People,%{hiera("ldap::dc")}'
 ramadda::ldap::group_directory: 'ou=Group,%{hiera("ldap::dc")}'
 ramadda::ldap::admin_group: 'fe2_2'
 
-postgresql::server::postgres_password: 'TODO: change me'
+ramadda::home: '%{hiera("persistent::dir")}/ramadda'
 ramadda::postgres_password: 'TODO: change me'
 
 # Data to be mounted
 gdata-mounts:
     - ua8
 
-nginx::nginx_locations:
+persistent::paths:
+    ramadda: {}
+
+proxy:
     '/repository':
         vhost: '%{::fqdn}'
         proxy: 'http://localhost:8080/repository'
+
+# Redirect to ramadda by default
+nginx::nginx_vhosts:
+    '%{::fqdn}':
+        listen_options: 'default'
+        location_custom_cfg:
+            return: '301 http://$host/repository'
