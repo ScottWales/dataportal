@@ -9,14 +9,23 @@ jenkins::configure_firewall: false
 jenkins::http_port: '8088'
 
 jenkins::config_hash:
+    JENKINS_HOME:
+        value: '%{hiera("persistent::dir")}/jenkins'
     JENKINS_PORT:
-        value: %{hiera("jenkins::http_port")}
+        value: '%{hiera("jenkins::http_port")}'
     JENKINS_AJP_PORT:
-        value: -1
+        value: '-1'
     JENKINS_ARGS:
         value: '--prefix=/jenkins'
 
-nginx::nginx_locations:
+persistent::paths:
+    jenkins:
+        create: true
+        owner: 'jenkins'
+        require: Package[jenkins]
+        notify: Service[jenkins]
+
+proxy:
     '/jenkins':
         vhost: '%{::fqdn}'
-        proxy: 'http://localhost:%{hiera("jenkins::http_port")}/jenkins/'
+        proxy: 'http://localhost:%{hiera("jenkins::http_port")}/jenkins'

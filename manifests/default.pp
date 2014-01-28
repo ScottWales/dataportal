@@ -33,4 +33,13 @@ node default {
       nci::gdata {$gdata_mounts:}
     }
   }
+
+  $proxies = hiera_hash('proxy',{})
+  create_resources('nginx::resource::location', $proxies)
+
+  file {'/etc/sysconfig/pgsql/postgresql':
+    content => 'PGDATA=/persistent/postgresdata',
+    require => Package['postgresql'],
+    notify  => Service['postgresql'],
+  }
 }

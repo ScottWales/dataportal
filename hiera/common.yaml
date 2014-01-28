@@ -4,6 +4,7 @@ classes:
     - security
     - ec2user
     - sudo
+    - persistent
 packages:
     - wget
 
@@ -18,6 +19,18 @@ ldap::port: '389'
 ldap::dc: 'dc=example,dc=com'
 ldap::url: '%{hiera("ldap::protocol")}://%{hiera("ldap::host")}:%{hiera("ldap::port")}'
 
+# Database
+postgresql::server::postgres_password: 'TODO: change me'
+postgresql::server::datadir: '%{hiera("persistent::dir")}/postgresdata'
+
+# Persistent storage
+persistent::dir: '/persistent'
+persistent::paths:
+    postgresdata: {}
+
+# Proxy setup
+nginx::use_default_location: false
 nginx::nginx_vhosts:
     '%{::fqdn}': 
         www_root: '/var/www'
+        listen_options: 'default'
