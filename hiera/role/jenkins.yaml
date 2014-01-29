@@ -31,8 +31,8 @@ persistent::paths:
 
 proxy:
     '/jenkins':
-        vhost: '%{::fqdn}'
         proxy: 'http://localhost:%{hiera("jenkins::http_port")}/jenkins'
+        vhost: '%{::fqdn} ssl'
         ssl: true
         ssl_only: true
         location_cfg_append:

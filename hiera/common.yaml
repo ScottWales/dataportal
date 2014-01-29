@@ -35,7 +35,8 @@ nginx::nginx_vhosts:
         location_custom_cfg:
             return: '301 https://$host$request_uri'
     '%{::fqdn} ssl':
-        server_name: '${::fqdn}'
+        server_name:
+            - '%{::fqdn}'
         www_root: '/var/www'
         listen_options: 'default'
         listen_port: 443
