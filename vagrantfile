@@ -13,7 +13,7 @@ Vagrant.configure("2") do | config |
         puppet.module_path = "modules"
         puppet.hiera_config_path = "hiera.yaml"
     end
-    config.vm.synced_folder "hiera", "/var/lib/hiera"
+    config.vm.synced_folder "hiera", "/etc/puppet/hiera"
 
     # Forward HTTP (not used with openstack)
     config.vm.network "forwarded_port", guest:  80, host:7080

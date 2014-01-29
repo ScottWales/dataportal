@@ -1,6 +1,6 @@
 ---
 :yaml:
-    :datadir: /var/lib/hiera
+    :datadir: /etc/puppet/hiera
 :hierarchy:
     - role/ramadda
     - role/jenkins
