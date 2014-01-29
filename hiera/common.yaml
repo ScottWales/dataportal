@@ -31,6 +31,18 @@ persistent::paths:
 # Proxy setup
 nginx::use_default_location: false
 nginx::nginx_vhosts:
-    '%{::fqdn}': 
+    '%{::fqdn}':
+        location_custom_cfg:
+            return: '301 https://$host$request_uri'
+    '%{::fqdn} ssl':
+        server_name: '${::fqdn}'
         www_root: '/var/www'
         listen_options: 'default'
+        listen_port: 443
+        ssl: true
+        ssl_cert: '%{hiera("ssl::cert")}'
+        ssl_key: '%{hiera("ssl::key")}'
+
+# SSL certificates
+ssl::cert: /dev/null
+ssl::key: /dev/null

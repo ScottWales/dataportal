@@ -26,6 +26,13 @@ node default {
     python::package {$pip_packages:}
   }
 
+  $gem_packages = hiera_array('ruby-packages',[])
+  if size($gem_packages) > 0 {
+    package {$gem_packages:
+      provider => gem,
+    }
+  }
+
   if $::openstack_meta_site == 'NCI' {
     # NFS mounts
     $gdata_mounts = hiera_array('gdata-mounts',[])
