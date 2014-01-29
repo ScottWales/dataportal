@@ -1,6 +1,6 @@
 ---
 :yaml:
-    :datadir: /etc/puppet/hiera
+    :datadir: hiera
 :hierarchy:
     - private
     - role/ramadda
