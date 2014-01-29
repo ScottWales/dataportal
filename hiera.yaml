@@ -2,6 +2,7 @@
 :yaml:
     :datadir: /etc/puppet/hiera
 :hierarchy:
+    - private
     - role/ramadda
     - role/jenkins
     - site/%{::openstack_meta_site}
