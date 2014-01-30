@@ -1,6 +1,6 @@
 ---
 :yaml:
-    :datadir: hiera
+    :datadir: /home/ec2-user/puppet/hiera
 :hierarchy:
     - private
     - role/ramadda
