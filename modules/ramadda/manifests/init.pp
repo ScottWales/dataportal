@@ -59,6 +59,7 @@ class ramadda  (
     postgresql::server::db {$postgres_db:
       user     => $postgres_user,
       password => postgresql_password($postgres_user,$postgres_password),
+      notify   => Service['tomcat'],
     }
 
     file {"${ramadda::home}/db.properties":
