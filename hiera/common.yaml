@@ -45,5 +45,5 @@ nginx::nginx_vhosts:
         ssl_key: '%{hiera("ssl::key")}'
 
 # SSL certificates
-ssl::cert: /dev/null
-ssl::key: /dev/null
+ssl::cert: 'puppet:///modules/testing/testing.crt'
+ssl::key: 'puppet:///modules/testing/testing.key'
