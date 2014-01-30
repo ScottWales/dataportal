@@ -1,7 +1,8 @@
 ---
 :yaml:
-    :datadir: /var/lib/hiera
+    :datadir: /home/ec2-user/puppet/hiera
 :hierarchy:
+    - private
     - role/ramadda
     - role/jenkins
     - site/%{::openstack_meta_site}

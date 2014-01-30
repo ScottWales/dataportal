@@ -30,13 +30,16 @@ persistent::paths:
 
 # Proxy setup
 nginx::use_default_location: false
+nginx::confd_purge: true
 nginx::nginx_vhosts:
     '%{::fqdn}':
         location_custom_cfg:
             return: '301 https://$host$request_uri'
     '%{::fqdn} ssl':
-        server_name: '${::fqdn}'
-        www_root: '/var/www'
+        server_name:
+            - '%{::fqdn}'
+        location_custom_cfg:
+            return: '301 https://$host/repository'
         listen_options: 'default'
         listen_port: 443
         ssl: true
@@ -44,5 +47,5 @@ nginx::nginx_vhosts:
         ssl_key: '%{hiera("ssl::key")}'
 
 # SSL certificates
-ssl::cert: /dev/null
-ssl::key: /dev/null
+ssl::cert: 'puppet:///modules/testing/testing.crt'
+ssl::key: 'puppet:///modules/testing/testing.key'
