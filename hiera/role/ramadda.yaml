@@ -10,6 +10,7 @@ classes:
 ramadda::ldap::url: '%{hiera("ldap::url")}'
 ramadda::ldap::user_directory: 'uid=${id},ou=People,%{hiera("ldap::dc")}'
 ramadda::ldap::group_directory: 'ou=Group,%{hiera("ldap::dc")}'
+ramadda::ldap::group_attribute: 'memberUid'
 ramadda::ldap::admin_group: 'fe2_2'
 
 ramadda::home: '%{hiera("persistent::dir")}/ramadda'
