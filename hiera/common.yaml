@@ -30,6 +30,7 @@ persistent::paths:
 
 # Proxy setup
 nginx::use_default_location: false
+nginx::confd_purge: true
 nginx::nginx_vhosts:
     '%{::fqdn}':
         location_custom_cfg:
