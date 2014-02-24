@@ -5,6 +5,7 @@ classes:
     - ec2user
     - sudo
     - persistent
+    - amanda::client
 packages:
     - wget
 
@@ -27,6 +28,10 @@ postgresql::server::datadir: '%{hiera("persistent::dir")}/postgresdata'
 persistent::dir: '/persistent'
 persistent::paths:
     postgresdata: {}
+
+# Backups
+amanda::remote_user "backup"
+amanda::server "walesnix.earthsci.unimelb.edu.au"
 
 # Proxy setup
 nginx::use_default_location: false

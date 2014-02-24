@@ -40,3 +40,6 @@
 [submodule "modules/nginx"]
 	path = modules/nginx
 	url = https://github.com/jfryman/puppet-nginx
+[submodule "modules/amanda"]
+	path = modules/amanda
+	url = https://github.com/pdxcat/puppet-module-amanda

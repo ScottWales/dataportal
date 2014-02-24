@@ -44,6 +44,10 @@ node default {
   $proxies = hiera_hash('proxy',{})
   create_resources('nginx::resource::location', $proxies)
 
+  amanda::ssh_authorized_key {'walesnix':
+    key => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDqp2BfHPXR02CjODE0gHJjTcd+d1e2SXUjjpRe8twVeQrcjFTvVwGJOENSyGeoccUPVzkcz0i/9ZaAljam1782t2o63Olt/bAYcp+njMCKtz1QTEVT6glr0S9vYmzTKARP/7d9Ld6d9TZAscRhZkKuDY5GD1cY3eZBD2Ffe+9ChC+oEgasS/Yp5u2m0+Aj4dNboMYqAs2930rJbqgfluNfNV8e4+xq7Th1OCZMGo0VK/bgieMJsXxSNhqCNYhL+p1RPRSZulzHT/MMXfldym1nLh/ntVGx2qcDvNG4MzunoX2AYdt0/JJTMHihyknDbk0pefV9Q9FBwuj+1eCuuapd',
+  }
+
   file {'/etc/sysconfig/pgsql/postgresql':
     content => 'PGDATA=/persistent/postgresdata',
     require => Package['postgresql'],
